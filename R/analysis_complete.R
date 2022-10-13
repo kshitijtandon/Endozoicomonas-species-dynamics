@@ -1,0 +1,2182 @@
+library(phyloseq)
+library(RColorBrewer)
+library(ggplot2)
+library(vegan)
+library(patchwork)
+library(compositions)
+library(cowplot)
+library(microbiomeMarker)
+library(grid)
+library(reshape2)
+
+####==========================#####
+####        Input data        #####
+####==========================#####
+
+otu <- read.table("/data/zotu_abundance_table.txt",
+                  row.names = 1, 
+                  header = T, 
+                  sep = "\t")
+head(otu[1:5,1:5])
+
+#performing square-root transformation of abundance data
+otu <- sqrt(otu) 
+
+tax <- read.table("data/zotu_taxtable.txt",
+                  row.names = 1,
+                  header = T,
+                  sep = "\t")
+head(tax[1:5,1:5])
+
+OTU <- otu_table(otu, taxa_are_rows = TRUE)
+head(OTU[1:5,1:5])
+
+tax <- as.matrix(tax)
+TAX <- tax_table(tax)
+head(TAX[1:5,1:5])
+
+meta <- read.table("data/zotu_meta.txt",
+                   header = T,
+                   row.names = 1,
+                   sep = "\t")
+
+META <- as.data.frame(meta)
+sample_meta <- sample_data(META)
+
+####==========================#####
+####      Phyloseq object     #####
+####==========================#####
+physeq <- phyloseq(OTU,TAX,sample_meta) 
+physeq
+
+
+####==========================#####
+####  Filter phyloseq object  #####
+####==========================#####
+
+filtered_physeq <- subset_taxa(physeq, 
+                               Domain != "Eukaryota")
+filtered_physeq
+filtered_physeq <- subset_taxa(filtered_physeq, 
+                               Domain != "unknown")
+filtered_physeq
+filtered_physeq <- subset_taxa(filtered_physeq,
+                               Family != "Mitochondria")
+filtered_physeq
+filtered_physeq <- subset_taxa(filtered_physeq,
+                               Order != "Chloroplast")
+filtered_physeq
+filtered_physeq <- subset_taxa(filtered_physeq,
+                               Phylum != "Bacteria_unclassified")
+filtered_physeq
+
+####==========================#####
+####  Subset healthy corals   #####
+####==========================#####
+
+healthy_coral <- subset_samples(filtered_physeq,
+                                Health == "Healthy")
+healthy_coral
+
+
+####=======================================#####
+#### Microbial community control samples   #####
+####=======================================#####
+
+control <- subset_samples(healthy_coral,
+                          Type == "Control")
+
+control_dist <- phyloseq::distance(control, 
+                                   method = "bray")
+
+control_nmds <- ordinate(control,
+                         "NMDS",
+                         control_dist)
+control_nmds$stress
+
+c1 <- plot_ordination(control, 
+                      control_nmds,
+                      color = "Sampletype",
+                      shape = "Sampletype", 
+                      title = "All control samples Outer and Inner bay") + 
+  geom_point(size=3) + 
+  theme_bw() + 
+  theme(text = element_text(size=10),
+        panel.grid = element_blank())
+
+c1 <- c1 + 
+  scale_color_manual(values = c("burlywood4","yellowgreen"))
+
+c1 <- c1 + stat_ellipse(type="norm",
+                        linetype=2)
+
+c1_grob <- grid.text("Stress:0.159")
+
+c1 <- c1 + 
+      annotation_custom(grob = c1_grob,
+                        xmin = 0.5, 
+                        ymin = 0.55)
+
+c1
+
+
+####=======================================#####
+#### Phylum level microbial community      #####
+####          analysis  Figure 2A          #####
+####=======================================#####
+
+
+data <- read.table("data/All_phylum_only.txt",
+                   header = T,
+                   row.names = 1, 
+                   sep = "\t")
+data_t <- t(data)
+
+head(data_t[1:5,1:5])
+
+rel_abundance <- (data_t/rowSums(data_t))*100
+
+head(rel_abundance[1:5,1:5])
+
+rel_abundance <- t(rel_abundance)
+
+df_cob_april <- melt(t(rel_abundance[,1:5]))
+df_cib_april <- melt(t(rel_abundance[,6:10]))
+
+df_cob_may <- melt(t(rel_abundance[,11:15]))
+df_i2o_may <- melt(t(rel_abundance[,16:20]))
+df_cib_may <- melt(t(rel_abundance[,21:25]))
+df_o2i_may <- melt(t(rel_abundance[,26:30]))
+
+df_cob_june <- melt(t(rel_abundance[,31:35]))
+df_i2o_june <- melt(t(rel_abundance[,36:40]))
+df_cib_june <- melt(t(rel_abundance[,41:45]))
+df_o2i_june <- melt(t(rel_abundance[,46:50]))
+df_cob_july <- melt(t(rel_abundance[,51:55]))
+df_i2o_july <- melt(t(rel_abundance[,56:60]))
+df_cib_july <- melt(t(rel_abundance[,61:65]))
+df_o2i_july <- melt(t(rel_abundance[,66:70]))
+df_cob_august <- melt(t(rel_abundance[,71:75]))
+df_i2o_august <- melt(t(rel_abundance[,76:80]))
+df_cib_august <- melt(t(rel_abundance[,81:85]))
+df_o2i_august <- melt(t(rel_abundance[,86:90]))
+df_cob_dec <- melt(t(rel_abundance[,91:95]))
+df_i2o_dec <- melt(t(rel_abundance[,96:100]))
+df_cib_dec <- melt(t(rel_abundance[,101:105]))
+df_o2i_dec <- melt(t(rel_abundance[,106:110]))
+
+sw_april <- melt(t(rel_abundance[,111:112]))
+sw_may <- melt(t(rel_abundance[,113:114]))            
+sw_june <- melt(t(rel_abundance[,115:116])) 
+sw_july <- melt(t(rel_abundance[,117:118])) 
+sw_august <- melt(t(rel_abundance[,119:120])) 
+sw_december <- melt(t(rel_abundance[,121:122])) 
+
+
+Colors_gene_class_surface = c("#b1c2fc","#e79158","lightskyblue3",
+                              "darkolivegreen","olivedrab","slategray2",
+                              "#d9eab8", "#937226","#464446","#a2b4c8",
+                              "#5892c7", "#cc1818","#f99888", "#696966")
+
+colnames(df_cob_april) <- c("Sample","Phylum","Abundance")
+colnames(df_cib_april) <- c("Sample","Phylum","Abundance")
+colnames(df_cob_may) <- c("Sample","Phylum","Abundance")
+colnames(df_cib_may) <- c("Sample","Phylum","Abundance")
+colnames(df_i2o_may) <- c("Sample","Phylum","Abundance")
+colnames(df_o2i_may) <- c("Sample","Phylum","Abundance")
+
+colnames(df_cob_june) <- c("Sample","Phylum","Abundance")
+colnames(df_cib_june) <- c("Sample","Phylum","Abundance")
+colnames(df_i2o_june) <- c("Sample","Phylum","Abundance")
+colnames(df_o2i_june) <- c("Sample","Phylum","Abundance")
+
+colnames(df_cob_july) <- c("Sample","Phylum","Abundance")
+colnames(df_cib_july) <- c("Sample","Phylum","Abundance")
+colnames(df_i2o_july) <- c("Sample","Phylum","Abundance")
+colnames(df_o2i_july) <- c("Sample","Phylum","Abundance")
+
+colnames(df_cob_august) <- c("Sample","Phylum","Abundance")
+colnames(df_cib_august) <- c("Sample","Phylum","Abundance")
+colnames(df_i2o_august) <- c("Sample","Phylum","Abundance")
+colnames(df_o2i_august) <- c("Sample","Phylum","Abundance")
+
+colnames(df_cob_dec) <- c("Sample","Phylum","Abundance")
+colnames(df_cib_dec) <- c("Sample","Phylum","Abundance")
+colnames(df_i2o_dec) <- c("Sample","Phylum","Abundance")
+colnames(df_o2i_dec) <- c("Sample","Phylum","Abundance")
+
+colnames(sw_april) <- c("Sample","Phylum","Abundance")
+colnames(sw_may) <- c("Sample","Phylum","Abundance")
+colnames(sw_june) <- c("Sample","Phylum","Abundance")
+colnames(sw_july) <- c("Sample","Phylum","Abundance")
+colnames(sw_august) <- c("Sample","Phylum","Abundance")
+colnames(sw_december) <- c("Sample","Phylum","Abundance")
+
+test_col <- brewer.pal(12,"Paired")
+
+
+p1_april <- ggplot(df_cob_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend  = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks  = element_blank(), 
+        axis.text =  element_blank(),
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "April")
+
+p1_april2 <- ggplot(df_cob_april,
+                    aes(x = Sample,
+                        y = Abundance,fill = "white")) +  
+  geom_bar(stat = "identity", 
+           show.legend  = FALSE,
+           fill = "white") +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  guides(fill = guide_legend(ncol = 1))
+
+
+p2_april <- ggplot(df_cib_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title  = element_blank(), 
+        axis.ticks  = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p2_april2 <- ggplot(df_cib_april,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks  = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_may <- ggplot(df_cob_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks  = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) +
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "May")
+
+p2_may <- ggplot(df_i2o_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_may <- ggplot(df_cib_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_may <- ggplot(df_o2i_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_june <- ggplot(df_cob_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Phylum)) +
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text  = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "June")
+
+p2_june <- ggplot(df_i2o_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_june <- ggplot(df_cib_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_june <- ggplot(df_o2i_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_july <- ggplot(df_cob_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text =  element_blank(), 
+        axis.line =  element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "July")
+
+p2_july <- ggplot(df_i2o_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_july <- ggplot(df_cib_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_july <- ggplot(df_o2i_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_august <- ggplot(df_cob_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "August")
+
+p2_august <- ggplot(df_i2o_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_august <- ggplot(df_cib_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_august <- ggplot(df_o2i_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_dec <- ggplot(df_cob_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "December")
+
+p2_dec <- ggplot(df_i2o_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_dec <- ggplot(df_cib_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_dec <- ggplot(df_o2i_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = "white")) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_april <- ggplot(sw_april,aes(x = Sample,
+                                   y = Abundance,
+                                   fill = Phylum)) + 
+  geom_bar(stat = "identity",
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text  = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_may <- ggplot(sw_may,aes(x = Sample,
+                               y = Abundance,
+                               fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_june <- ggplot(sw_june,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_sw_july <- ggplot(sw_july,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = TRUE) + 
+  theme_cowplot() + 
+  theme(legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_august <- ggplot(sw_august,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text  = element_blank(), 
+        axis.line  = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_december <- ggplot(sw_december,aes(x = Sample,
+                                         y = Abundance,
+                                         fill = Phylum)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(Colors_gene_class_surface,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+(p1_april|p1_april2|p2_april|p2_april2|p1_sw_april)/(p1_may|p2_may|p3_may|p4_may|p1_sw_may)/(p1_june|p2_june|p3_june|p4_june|p1_sw_june)/(p1_july|p2_july|p3_july|p4_july|p1_sw_july)/(p1_august|p2_august|p3_august|p4_august|p1_sw_august)/(p1_dec|p2_dec|p3_dec|p4_dec|p1_sw_december)
+
+ggsave("figures/Figure 2A.tiff", 
+       units = "in", 
+       width = 10, 
+       height = 12, 
+       dpi = 300, 
+       compression = 'lzw')
+
+
+
+####=======================================#####
+#### Endozoicomonas specific analysis      #####
+####            Figure 2B                  #####
+####=======================================#####
+
+data <- read.table("/data/Endozoicomonas_only.txt",
+                   header = T,
+                   row.names = 1,
+                   sep = "\t")
+data_t <- t(data)
+head(data_t)
+
+rel_abundance <- (data_t/rowSums(data_t))*100
+head(rel_abundance)
+
+rel_abundance <- t(rel_abundance)
+
+df_cob_april <- melt(t(rel_abundance[,1:5]))
+df_cib_april <- melt(t(rel_abundance[,6:10]))
+
+df_cob_may <- melt(t(rel_abundance[,11:15]))
+df_i2o_may <- melt(t(rel_abundance[,16:20]))
+df_cib_may <- melt(t(rel_abundance[,21:25]))
+df_o2i_may <- melt(t(rel_abundance[,26:30]))
+
+df_cob_june <- melt(t(rel_abundance[,31:35]))
+df_i2o_june <- melt(t(rel_abundance[,36:40]))
+df_cib_june <- melt(t(rel_abundance[,41:45]))
+df_o2i_june <- melt(t(rel_abundance[,46:50]))
+df_cob_july <- melt(t(rel_abundance[,51:55]))
+df_i2o_july <- melt(t(rel_abundance[,56:60]))
+df_cib_july <- melt(t(rel_abundance[,61:65]))
+df_o2i_july <- melt(t(rel_abundance[,66:70]))
+df_cob_august <- melt(t(rel_abundance[,71:75]))
+df_i2o_august <- melt(t(rel_abundance[,76:80]))
+df_cib_august <- melt(t(rel_abundance[,81:85]))
+df_o2i_august <- melt(t(rel_abundance[,86:90]))
+df_cob_dec <- melt(t(rel_abundance[,91:95]))
+df_i2o_dec <- melt(t(rel_abundance[,96:100]))
+df_cib_dec <- melt(t(rel_abundance[,101:105]))
+df_o2i_dec <- melt(t(rel_abundance[,106:110]))
+
+sw_april <- melt(t(rel_abundance[,111:112]))
+sw_may <- melt(t(rel_abundance[,113:114]))            
+sw_june <- melt(t(rel_abundance[,115:116])) 
+sw_july <- melt(t(rel_abundance[,117:118])) 
+sw_august <- melt(t(rel_abundance[,119:120])) 
+sw_december <- melt(t(rel_abundance[,121:122])) 
+
+
+Colors_gene_class_surface <- c("#b1c2fc","#e79158","#6600cc","#000066",
+                               "#07e2f4","#1bc301","#d9eab8", "#937226",
+                               "#464446","#a2b4c8","#5892c7", "#cc1818",
+                               "#f99888", "#696966")
+
+colnames(df_cob_april) <- c("Sample", "zOTU", "Abundance")
+colnames(df_cib_april) <- c("Sample", "zOTU", "Abundance")
+colnames(df_cob_may) <- c("Sample", "zOTU", "Abundance")
+colnames(df_cib_may) <- c("Sample", "zOTU", "Abundance")
+colnames(df_i2o_may) <- c("Sample", "zOTU", "Abundance")
+colnames(df_o2i_may) <- c("Sample", "zOTU", "Abundance")
+
+colnames(df_cob_june) <- c("Sample", "zOTU", "Abundance")
+colnames(df_cib_june) <- c("Sample", "zOTU", "Abundance")
+colnames(df_i2o_june) <- c("Sample", "zOTU", "Abundance")
+colnames(df_o2i_june) <- c("Sample", "zOTU", "Abundance")
+
+colnames(df_cob_july) <- c("Sample", "zOTU", "Abundance")
+colnames(df_cib_july) <- c("Sample", "zOTU", "Abundance")
+colnames(df_i2o_july) <- c("Sample", "zOTU", "Abundance")
+colnames(df_o2i_july) <- c("Sample", "zOTU", "Abundance")
+
+colnames(df_cob_august) <- c("Sample", "zOTU", "Abundance")
+colnames(df_cib_august) <- c("Sample", "zOTU", "Abundance")
+colnames(df_i2o_august) <- c("Sample", "zOTU", "Abundance")
+colnames(df_o2i_august) <- c("Sample", "zOTU", "Abundance")
+
+colnames(df_cob_dec) <- c("Sample", "zOTU", "Abundance")
+colnames(df_cib_dec) <- c("Sample", "zOTU", "Abundance")
+colnames(df_i2o_dec) <- c("Sample", "zOTU", "Abundance")
+colnames(df_o2i_dec) <- c("Sample", "zOTU", "Abundance")
+
+colnames(sw_april)  <- c("Sample", "zOTU", "Abundance")
+colnames(sw_may)  <- c("Sample", "zOTU", "Abundance")
+colnames(sw_june) <- c("Sample", "zOTU", "Abundance")
+colnames(sw_july) <- c("Sample", "zOTU", "Abundance")
+colnames(sw_august) <- c("Sample", "zOTU", "Abundance")
+colnames(sw_december) <- c("Sample", "zOTU", "Abundance")
+
+test_col <- brewer.pal(12,"Paired")
+
+
+p1_april <- ggplot(df_cob_april,aes(x = Sample,
+                                    y = Abundance,fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(),
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "April")
+
+p1_april2 <- ggplot(df_cob_april,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = "white")) + 
+  geom_bar(stat = "identity", show.legend = FALSE,fill = "white") + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  guides(fill = guide_legend(ncol = 1))
+
+
+
+p2_april <- ggplot(df_cib_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p2_april2 <- ggplot(df_cib_april,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE,
+           fill = "white") + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(),
+        axis.line = element_line(color = "white")) +  
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_may <- ggplot(df_cob_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "May")
+
+p2_may <- ggplot(df_i2o_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_may <- ggplot(df_cib_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(),
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_may <- ggplot(df_o2i_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_june <- ggplot(df_cob_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "June")
+
+p2_june <- ggplot(df_i2o_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_june <- ggplot(df_cib_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_june <- ggplot(df_o2i_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_july <- ggplot(df_cob_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend  = FALSE) +  
+  theme_cowplot() +   
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,
+                                    face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "July")
+
+p2_july <- ggplot(df_i2o_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_july <- ggplot(df_cib_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_july <- ggplot(df_o2i_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_august <- ggplot(df_cob_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,
+                                    face = "bold"), 
+        axis.ticks  = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line  = element_line(color = "white")) + 
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) +
+  labs(y = "August")
+
+p2_august <- ggplot(df_i2o_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_august <- ggplot(df_cib_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_august <- ggplot(df_o2i_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_dec <- ggplot(df_cob_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x  = element_blank(),
+        axis.title.y = element_text(size = 9,
+                                    face = "bold"), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = "December")
+
+
+p2_dec <- ggplot(df_i2o_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_dec <- ggplot(df_cib_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_dec <- ggplot(df_o2i_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_april <- ggplot(sw_april,aes(x = Sample,
+                                   y = Abundance,
+                                   fill = zOTU)) + 
+  geom_bar(stat = "identity", show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) +  
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_may <- ggplot(sw_may,aes(x = Sample,
+                               y = Abundance,
+                               fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend  = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_june <- ggplot(sw_june,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = zOTU)) +
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title  = element_blank(), 
+        axis.ticks =  element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_july <- ggplot(sw_july,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend  = TRUE) + 
+  theme_cowplot() + 
+  theme(legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title  = element_blank(), 
+        axis.ticks  = element_blank(), 
+        axis.text =  element_blank(), 
+        axis.line =  element_line(color = "white")) + 
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_august <- ggplot(sw_august,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks  = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = "white")) + 
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_december <- ggplot(sw_december,aes(x = Sample,
+                                         y = Abundance,
+                                         fill = zOTU)) + 
+  geom_bar(stat = "identity", 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line =  element_line(color = "white")) + 
+  scale_fill_manual(values = c(test_col,
+                               "lightgoldenrod","grey","grey87")) +
+  guides(fill = guide_legend(ncol = 1))
+
+(p1_april|p1_april2|p2_april|p2_april2|p1_sw_april)/(p1_may|p2_may|p3_may|p4_may|p1_sw_may)/(p1_june|p2_june|p3_june|p4_june|p1_sw_june)/(p1_july|p2_july|p3_july|p4_july|p1_sw_july)/(p1_august|p2_august|p3_august|p4_august|p1_sw_august)/(p1_dec|p2_dec|p3_dec|p4_dec|p1_sw_december)
+
+ggsave("figures/Figure 2B.tiff", 
+       units = "in", 
+       width = 10, 
+       height = 12, 
+       dpi = 300, 
+       compression = 'lzw')
+
+
+
+####=======================================#####
+#### Microbial community location specific #####
+####              Outer Bay                #####
+####=======================================#####
+ob <- subset_samples(healthy_coral,
+                     Location == "Outer")
+ob
+
+ob_dist <- phyloseq::distance(ob,
+                              method = "bray")
+ob_nmds<-ordinate(ob,
+                  "NMDS",
+                  distance = ob_dist)
+ob_nmds$stress
+
+p1 <- plot_ordination(ob,
+                      ordination = ob_nmds,
+                      color="Sampletype", 
+                      title=" Location:Outer-bay") + 
+  geom_point(size=3) + 
+  theme_bw()+ 
+  theme(text = element_text(size = 10), 
+        panel.grid = element_blank())
+
+p1 <- p1 + 
+  scale_color_manual(values = c("burlywood4","palevioletred"))
+
+p1 <- p1 + stat_ellipse(type ="norm",
+                        linetype = 2)
+
+ob_grob <- grid.text("Stress:0.167")
+
+p1 <- p1 + 
+  annotation_custom(grob = ob_grob,
+                    xmin = 0.4,
+                    ymin = 0.37)
+
+p1
+
+####=======================================#####
+#### Microbial community location specific #####
+####      Outer Bay:Statistical test       #####
+####=======================================#####
+ob_df <- as(sample_data(ob),
+            "data.frame")
+
+ob_groups_sampletype <- ob_df$Sampletype
+
+#run betadisper for dispersion within groups significance
+betadisper_ob_sampletype <- betadisper(ob_dist,
+                                       ob_groups_sampletype) 
+
+anova(betadisper_ob_sampletype) #not significant
+
+ob_groups_month<-ob_df$Month
+
+betadisper_ob_month <- betadisper(ob_dist,
+                                  ob_groups_month)
+anova(betadisper_ob_month) #not significant 
+
+anova_ob <- adonis2(ob_dist~Sampletype*Month,data=data.frame(sample_data(ob)), permutations=999)
+anova_ob
+
+####=======================================#####
+#### Microbial community location specific #####
+####              Inner Bay                #####
+####=======================================#####
+
+ib <- subset_samples(healthy_coral,
+                     Location == "Inner")
+
+ib_dist <- phyloseq::distance(ib,
+                              method = "bray")
+
+ib_nmds<-ordinate(ib,
+                  "NMDS",
+                  distance = ib_dist)
+
+p2 <- plot_ordination(ib,
+                      ordination = ib_nmds,
+                      color="Sampletype", title="Location: Inner-bay") +   
+  geom_point(size=3) +
+  theme_bw() + 
+  theme(text = element_text(size=10),
+        panel.grid = element_blank())
+
+p2 <- p2 +
+  scale_color_manual(values = c("yellowgreen","plum3"))
+
+p2 <- p2 + 
+  stat_ellipse(type = "norm",
+               linetype = 2)
+
+ib_grob <- grid.text("Stress:0.17")
+
+p2 <- p2 + 
+  annotation_custom(grob = ib_grob,
+                    xmin=0.30,
+                    ymin=0.52)
+
+p2
+
+####=======================================#####
+#### Microbial community location specific #####
+####      Inner Bay:Statistical test       #####
+####=======================================#####
+
+ib_df <- as(sample_data(ib),"data.frame")
+
+ib_groups_sampletype <- ib_df$Sampletype
+
+#run betadisper for dispersion within groups significance
+betadisper_ib_sampletype <- betadisper(ib_dist,
+                                       ib_groups_sampletype) 
+
+anova(betadisper_ib_sampletype) #not significant
+
+
+ib_groups_month <- ib_df$Month
+
+betadisper_ib_month <- betadisper(ib_dist,ib_groups_month)
+
+anova(betadisper_ib_month)
+
+anova_ib <- adonis2(ib_dist~Sampletype*Month,
+                    data = data.frame(sample_data(ib)), 
+                    permutations = 999)
+
+anova_ib
+
+####=======================================#####
+#### Microbial community location specific #####
+####          Figure 3A and 3B             #####
+####=======================================#####
+
+(p1|p2)
+ggsave("figures/Figure 3A_3B.tiff", 
+       units = "in", 
+       width = 16, 
+       height = 6, 
+       dpi = 300, 
+       compression = 'lzw')
+
+
+####=======================================#####
+####          Alpha diversity analysis     #####
+####            Figure S1                  #####
+####=======================================#####
+
+
+healthy_sw <- subset_samples(filtered_physeq,
+                             Type=="SW")
+
+healthy_sw
+
+merge_otu_table <- merge_phyloseq(otu_table(healthy_coral),
+                                  otu_table(healthy_sw))
+
+merge_sample_data <- merge_phyloseq(sample_data(healthy_coral),
+                                    sample_data(healthy_sw))
+
+merge_tax_table <- merge_phyloseq(tax_table(healthy_coral),
+                                  tax_table(healthy_sw))
+
+coral_sw <- phyloseq(merge_otu_table,
+                     merge_sample_data,
+                     merge_tax_table)
+
+sample_sum_df <- data.frame(sum = sample_sums(coral_sw))
+
+ggplot(sample_sum_df, 
+       aes(x = sum)) + 
+  geom_histogram(color = "black", 
+                 fill = "indianred",
+                 binwidth = 2500) +
+  ggtitle("Distribution of sample sequencing depth") + 
+  xlab("Read counts") +
+  theme(axis.title.y = element_blank())
+
+smin <- min(sample_sums(coral_sw))
+smin
+smean <- mean(sample_sums(coral_sw))
+smax <- max(sample_sums(coral_sw))
+smax
+
+min_lib <- smin #5704 coral and seawater
+min_lib
+nsamp <- nsamples(coral_sw)
+trials <- 100
+
+richness <- matrix(nrow = nsamp, 
+                   ncol = trials)
+
+row.names(richness) <- sample_names(coral_sw)
+
+evenness <- matrix(nrow = nsamp, 
+                   ncol = trials)
+
+row.names(evenness) <- sample_names(coral_sw)
+
+shannon<- matrix(nrow = nsamp, 
+                 ncol = trials)
+
+row.names(shannon) <- sample_names(coral_sw)
+
+chao <- matrix(nrow = nsamp, 
+               ncol = trials)
+
+row.names(chao) <- sample_names(coral_sw)
+
+
+for (i in 1:100) {
+  # Subsample
+  r <- rarefy_even_depth(coral_sw, 
+                         sample.size = min_lib, 
+                         verbose = FALSE, 
+                         replace = TRUE)
+  
+  # Calculate richness
+  rich <- as.numeric(as.matrix(estimate_richness(r, measures = "Observed")))
+  richness[ ,i] <- rich
+  
+  # Calculate evenness
+  even <- as.numeric(as.matrix(estimate_richness(r, measures = "InvSimpson")))
+  evenness[ ,i] <- even
+  
+  shan <- as.numeric(as.matrix(estimate_richness(r, measures = "Shannon")))
+  shannon[ ,i] <- shan
+  
+  chaox <- as.matrix(estimate_richness(r, measures = "Chao1"))
+  chao_1 <- as.numeric(as.matrix(chaox[,1]))
+  chao[ ,i] <- chao_1
+}
+
+Sample <- row.names(richness)
+
+mean <- apply(richness, 1, mean)
+
+sd <- apply(richness, 1, sd)
+
+measure <- rep("Richness", nsamp)
+
+rich_stats <- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+
+# Create a new dataframe to hold the means and standard deviations of 
+# evenness estimates
+
+Sample <- row.names(evenness)
+mean <- apply(evenness, 1, mean)
+sd <- apply(evenness, 1, sd)
+measure <- rep("Inverse Simpson", nsamp)
+even_stats <- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+Sample <- row.names(shannon)
+mean <- apply(shannon, 1, mean)
+sd <- apply(shannon, 1, sd)
+measure <- rep("Shannon", nsamp)
+shan_stats <- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+Sample <- row.names(chao)
+mean <- apply(chao, 1, mean)
+sd <- apply(chao, 1, sd)
+measure <- rep("Chao1", nsamp)
+chao_stats <- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+
+write.csv(rich_stats, file = "data/observed_richness_coral_sw.csv")
+write.csv(even_stats, file = "data/even_InvSimpson_coral_sw.csv")
+write.csv(shan_stats, file = "data/shannon_coral_sw.csv")
+write.csv(chao_stats, file = "data/chao1_coral_sw.csv")
+
+
+
+####===================================#####
+####          Kruskal wallis and       #####
+#### pairwise wilcox: alpha diversity  #####
+####===================================#####
+
+kruskal.test(Richness~Sampletype, 
+             data = data)
+
+pairwise.wilcox.test(data$Richness, 
+                     data$Sampletype, 
+                     p.adjust.method = "bonf")
+
+kruskal.test(Shannon~Sampletype,
+             data = data)
+
+pairwise.wilcox.test(data$Shannon, 
+                     data$Sampletype, 
+                     p.adjust.method = "bonf")
+kruskal.test(Chao1~Sampletype, 
+             data = data) #significantly different(p=0.04364)
+
+pairwise.wilcox.test(data$Chao1, 
+                     data$Sampletype, 
+                     p.adjust.method = "bonf") #CIB bvs COB adj p=0.031)
+
+kruskal.test(InvSimpson~Sampletype,
+             data = data) #significantly different (p=0.03648)
+
+pairwise.wilcox.test(data$InvSimpson, 
+                     data$Sampletype, 
+                     p.adjust.method = "bonf") #no significant difference
+
+head(data)
+new_data_for_inv_inset = data[1:100,]
+kruskal.test(InvSimpson~Sampletype,
+             data = new_data_for_inv_inset) #significantly different (p=0.03648)
+
+####==========================#####
+#### ANOVA on alpha diveristy #####
+####==========================#####
+Richness_aov <- aov(Richness~Sampletype,
+                    data = data_richness)
+summary(Richness_aov)
+TukeyHSD(Richness_aov)
+
+Shannon_aov <- aov(Shannon~Sampletype,
+                   data = data_shannon)
+summary(Shannon_aov)
+TukeyHSD(Shannon_aov)
+
+Chao1_aov <- aov(Chao1~Sampletype,
+                 data = data_chao)
+summary(Chao1_aov)
+TukeyHSD(Chao1_aov)
+
+InvSimpson_aov <- aov(InvSimpson~Sampletype,
+                      data = data_inv)
+summary(InvSimpson_aov)
+TukeyHSD(InvSimpson_aov)
+
+
+####==========================#####
+#### boxplot: alpha diversity #####
+####==========================#####
+
+data<-read.table(file = "data/all alpha.txt",
+                 header=T,sep="\t")
+
+head(data)
+
+data_richness <- data[,c(3,7)]
+data_shannon <- data[,c(4,7)]
+data_chao <- data[,c(5,7)]
+data_inv <- data[,c(6,7)]
+
+
+data$Sampletype <- factor(data$Sampletype, 
+                          levels = unique(data$Sampletype))
+
+p_richness <- ggplot(data_richness,
+                     aes(Richness,Sampletype,color=Sampletype)) +
+  coord_flip()
+
+p_richness <- p_richness +    
+  geom_boxplot(fill=c("yellowgreen",
+                      "plum3",
+                      "burlywood4",
+                      "palevioletred",
+                      "dodgerblue",
+                      "midnightblue"),
+               color="black") +
+  geom_jitter(size = 2,
+              alpha = 0.3,
+              color = "gray35") + 
+  theme_cowplot() + 
+  theme(legend.position = "none",
+        axis.title.x = element_blank())
+
+
+p_shannon <- ggplot(data_shannon,
+                    aes(Shannon,Sampletype, color=Sampletype)) + 
+  coord_flip()
+
+p_shannon <- p_shannon + 
+  geom_boxplot(fill = c("yellowgreen",
+                        "plum3",
+                        "burlywood4",
+                        "palevioletred",
+                        "dodgerblue",
+                        "midnightblue"),
+               color="black") +
+  geom_jitter(size=2,alpha=0.3,color="gray35") + 
+  coord_flip() + 
+  theme_cowplot() + 
+  theme(legend.position = "none", 
+        axis.title.x = element_blank())
+
+
+p_chao <- ggplot(data_chao,
+                 aes(Chao1,Sampletype, color=Sampletype)) + 
+  coord_flip()
+
+p_chao <- p_chao + 
+  geom_boxplot(fill = c("yellowgreen",
+                        "plum3",
+                        "burlywood4",
+                        "palevioletred",
+                        "dodgerblue",
+                        "midnightblue"),
+               color="black") + 
+  geom_jitter(size=2,
+              alpha=0.3,
+              color="gray35") +
+  coord_flip() + 
+  theme_cowplot() + 
+  theme(legend.position = "none", 
+        axis.title.x = element_blank())
+
+p_inv <- ggplot(data_inv,
+                aes(InvSimpson,Sampletype, color=Sampletype)) +
+  coord_flip()
+
+p_inv <- p_inv + 
+  geom_boxplot(fill = c("yellowgreen",
+                        "plum3",
+                        "burlywood4",
+                        "palevioletred",
+                        "dodgerblue",
+                        "midnightblue"
+  ),
+  color="black") +   
+  geom_jitter(size=2,
+              alpha=0.3,
+              color="gray35") +
+  coord_flip() + 
+  theme_cowplot() + 
+  theme(legend.position = "none", 
+        axis.title.x = element_blank())
+
+((p_richness|p_shannon)/(p_chao|p_inv))
+
+ggsave("figures/Figure S1.tiff", 
+       units = "in", 
+       width = 16, 
+       height = 6, 
+       dpi = 300, 
+       compression = 'lzw')
+
+
+
+####=================================#####
+#### Class level microbial community #####
+####            Figure S2            #####
+####=================================#####
+
+data <- read.table("data/All_class_only.txt",
+                   header = T,
+                   row.names = 1, 
+                   sep = "\t")
+data_t <- t(data)
+head(data_t)
+rel_abundance <- (data_t/rowSums(data_t))*100
+head(rel_abundance)
+rel_abundance <- t(rel_abundance)
+
+
+df_cob_april <- melt(t(rel_abundance[,1:5]))
+df_cib_april <- melt(t(rel_abundance[,6:10]))
+
+df_cob_may <- melt(t(rel_abundance[,11:15]))
+df_i2o_may <- melt(t(rel_abundance[,16:20]))
+df_cib_may <- melt(t(rel_abundance[,21:25]))
+df_o2i_may <- melt(t(rel_abundance[,26:30]))
+
+df_cob_june <- melt(t(rel_abundance[,31:35]))
+df_i2o_june <- melt(t(rel_abundance[,36:40]))
+df_cib_june <- melt(t(rel_abundance[,41:45]))
+df_o2i_june <- melt(t(rel_abundance[,46:50]))
+df_cob_july <- melt(t(rel_abundance[,51:55]))
+df_i2o_july <- melt(t(rel_abundance[,56:60]))
+df_cib_july <- melt(t(rel_abundance[,61:65]))
+df_o2i_july <- melt(t(rel_abundance[,66:70]))
+df_cob_august <- melt(t(rel_abundance[,71:75]))
+df_i2o_august <- melt(t(rel_abundance[,76:80]))
+df_cib_august <- melt(t(rel_abundance[,81:85]))
+df_o2i_august <- melt(t(rel_abundance[,86:90]))
+df_cob_dec <- melt(t(rel_abundance[,91:95]))
+df_i2o_dec <- melt(t(rel_abundance[,96:100]))
+df_cib_dec <- melt(t(rel_abundance[,101:105]))
+df_o2i_dec <- melt(t(rel_abundance[,106:110]))
+
+sw_april <- melt(t(rel_abundance[,111:112]))
+sw_may <- melt(t(rel_abundance[,113:114]))            
+sw_june <- melt(t(rel_abundance[,115:116])) 
+sw_july <- melt(t(rel_abundance[,117:118])) 
+sw_august <- melt(t(rel_abundance[,119:120])) 
+sw_december <- melt(t(rel_abundance[,121:122])) 
+
+Colors_gene_class_bottom = c("#b1c2fc","#D18F52","#e79158","#42b3c2",
+                             "#4dc4ff","#5892c7","#ff4365","#f99888",
+                             "#cc1818","#a5e075","#8CC265","#d9eab8",
+                             "#791e94","#540d6e","#6600cc","#1bc301",
+                             "#464446","#b2ccdb") 
+Colors_gene_class_surface = c("#b1c2fc","#e79158","lightskyblue3",
+                              "darkolivegreen","olivedrab","slategray2",
+                              "#d9eab8", "#937226","#464446","#a2b4c8",
+                              "#5892c7", "#cc1818","#f99888", "#696966")
+
+colnames(df_cob_april) <- c("Sample","Class","Abundance")
+colnames(df_cib_april) <- c("Sample","Class","Abundance")
+colnames(df_cob_may) <- c("Sample","Class","Abundance")
+colnames(df_cib_may) <- c("Sample","Class","Abundance")
+colnames(df_i2o_may) <- c("Sample","Class","Abundance")
+colnames(df_o2i_may) <- c("Sample","Class","Abundance")
+
+colnames(df_cob_june) <- c("Sample","Class","Abundance")
+colnames(df_cib_june) <- c("Sample","Class","Abundance")
+colnames(df_i2o_june) <- c("Sample","Class","Abundance")
+colnames(df_o2i_june) <- c("Sample","Class","Abundance")
+
+colnames(df_cob_july) <- c("Sample","Class","Abundance")
+colnames(df_cib_july) <- c("Sample","Class","Abundance")
+colnames(df_i2o_july) <- c("Sample","Class","Abundance")
+colnames(df_o2i_july) <- c("Sample","Class","Abundance")
+
+colnames(df_cob_august) <- c("Sample","Class","Abundance")
+colnames(df_cib_august) <- c("Sample","Class","Abundance")
+colnames(df_i2o_august) <- c("Sample","Class","Abundance")
+colnames(df_o2i_august) <- c("Sample","Class","Abundance")
+
+colnames(df_cob_dec) <- c("Sample","Class","Abundance")
+colnames(df_cib_dec) <- c("Sample","Class","Abundance")
+colnames(df_i2o_dec) <- c("Sample","Class","Abundance")
+colnames(df_o2i_dec) <- c("Sample","Class","Abundance")
+
+colnames(sw_april) <- c("Sample","Class","Abundance")
+colnames(sw_may) <- c("Sample","Class","Abundance")
+colnames(sw_june) <- c("Sample","Class","Abundance")
+colnames(sw_july) <- c("Sample","Class","Abundance")
+colnames(sw_august) <- c("Sample","Class","Abundance")
+colnames(sw_december) <- c("Sample","Class","Abundance")
+
+test_col = brewer.pal(12,"Paired")
+
+
+p1_april <- ggplot(df_cob_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = Class)) +  
+            geom_bar(stat = "identity", 
+                     show.legend = FALSE) + 
+            theme_cowplot() + 
+            theme(axis.title.x = element_blank(),
+                  axis.title.y = element_text(size = 9,face = "bold"), 
+                  axis.ticks = element_blank(), 
+                  axis.text = element_blank(), 
+                  axis.line = element_line(color = "white")) +  
+            scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                         "lightgoldenrod","grey","grey87")) + 
+            guides(fill = guide_legend(ncol = 1)) + 
+            labs(y = "April")
+
+p1_april2 <- ggplot(df_cob_april,
+                    aes(x = Sample,
+                        y = Abundance,
+                        fill = "white")) +  
+             geom_bar(stat = "identity", 
+                      show.legend = FALSE,
+                      fill = "white") + 
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = "white")) + 
+             guides(fill = guide_legend(ncol = 1))
+
+
+p2_april <- ggplot(df_cib_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = Class)) +  
+            geom_bar(stat = "identity", 
+                     show.legend  = FALSE) +  
+            theme_cowplot() + 
+            theme(axis.title  = element_blank(), 
+                  axis.ticks = element_blank(), 
+                  axis.text = element_blank(), 
+                  axis.line = element_line(color = "white")) +  
+            scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                         "lightgoldenrod","grey","grey87")) + 
+            guides(fill = guide_legend(ncol = 1))
+
+p2_april2 <- ggplot(df_cib_april,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = "white")) + 
+             geom_bar(stat = "identity", 
+                      show.legend = FALSE,
+                      fill = "white") + 
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = "white")) + 
+             guides(fill = guide_legend(ncol = 1))
+
+
+p1_may <- ggplot(df_cob_may,
+                 aes(x = Sample,
+                     y = Abundance,
+                     fill = Class)) + 
+          geom_bar(stat = "identity", 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title.x = element_blank(),
+                axis.title.y = element_text(size = 9,face = "bold"), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       "lightgoldenrod","grey","grey87")) + 
+          guides(fill = guide_legend(ncol = 1)) + 
+          labs(y = "May")
+
+p2_may <- ggplot(df_i2o_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = "white")) + 
+          geom_bar(stat = "identity", 
+                   show.legend = FALSE,
+                   fill = "white") + 
+          theme_cowplot() +  
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p3_may <- ggplot(df_cib_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = "identity", 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title  = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       "lightgoldenrod","grey","grey87")) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p4_may <- ggplot(df_o2i_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = "identity", 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       "lightgoldenrod","grey","grey87")) + 
+          guides(fill = guide_legend(ncol = 1))
+
+
+p1_june <- ggplot(df_cob_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity", 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title.x = element_blank(),
+                 axis.title.y = element_text(size = 9,face = "bold"), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = "white")) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1)) +  
+           labs(y = "June")
+
+p2_june <- ggplot(df_i2o_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity", 
+                    show.legend =  FALSE) + 
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = "white")) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p3_june <- ggplot(df_cib_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity", 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = "white")) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p4_june <- ggplot(df_o2i_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity",
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line  = element_line(color = "white")) +  
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p1_july <- ggplot(df_cob_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity", 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title.x = element_blank(),
+                 axis.title.y = element_text(size = 9,face = "bold"), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = "white")) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1)) +  
+           labs(y = "July")
+
+p2_july <- ggplot(df_i2o_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity", 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text  = element_blank(), 
+                 axis.line  = element_line(color = "white")) +  
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p3_july <- ggplot(df_cib_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity", 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(),
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = "white")) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p4_july <- ggplot(df_o2i_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = "identity", 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = "white")) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        "lightgoldenrod","grey","grey87")) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p1_august <- ggplot(df_cob_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = "identity", 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title.x = element_blank(),
+                   axis.title.y = element_text(size = 9,face = "bold"), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = "white")) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          "lightgoldenrod","grey","grey87")) +  
+             guides(fill = guide_legend(ncol = 1)) +  
+             labs(y = "August")
+
+p2_august <- ggplot(df_i2o_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = "identity", 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = "white")) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          "lightgoldenrod","grey","grey87")) +  
+             guides(fill = guide_legend(ncol = 1))
+
+p3_august <- ggplot(df_cib_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = "identity", 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = "white")) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          "lightgoldenrod","grey","grey87")) +  
+             guides(fill = guide_legend(ncol = 1))
+
+p4_august <- ggplot(df_o2i_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = "identity", 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = "white")) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          "lightgoldenrod","grey","grey87")) +  
+             guides(fill = guide_legend(ncol = 1))
+
+
+p1_dec <- ggplot(df_cob_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = "identity", 
+                   show.legend  = FALSE) +  
+          theme_cowplot() + 
+          theme(axis.title.x = element_blank(),
+                axis.title.y = element_text(size = 9,face = "bold"), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       "lightgoldenrod","grey","grey87")) + 
+          guides(fill = guide_legend(ncol = 1)) + 
+          labs(y = "December")
+
+p2_dec <- ggplot(df_i2o_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = "identity", 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       "lightgoldenrod","grey","grey87")) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p3_dec <- ggplot(df_cib_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = "identity", 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       "lightgoldenrod","grey","grey87")) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p4_dec <- ggplot(df_o2i_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = "identity", 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title  = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = "white")) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       "lightgoldenrod","grey","grey87")) + 
+          guides(fill = guide_legend(ncol = 1))
+
+
+
+p1_sw_april <- ggplot(sw_april,aes(x = Sample,
+                                   y = Abundance,
+                                   fill = Class)) + 
+               geom_bar(stat = "identity", 
+                        show.legend = FALSE) +  
+               theme_cowplot() +  
+               theme(axis.title = element_blank(), 
+                     axis.ticks = element_blank(), 
+                     axis.text = element_blank(), 
+                     axis.line = element_line(color = "white")) + 
+               scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                            "lightgoldenrod","grey","grey87")) +  
+               guides(fill = guide_legend(ncol = 1))
+
+p1_sw_may <- ggplot(sw_may,aes(x = Sample,
+                               y = Abundance,
+                               fill = Class)) + 
+             geom_bar(stat = "identity", 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = "white")) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          "lightgoldenrod","grey","grey87")) +  
+             guides(fill = guide_legend(ncol = 1))
+
+p1_sw_june <- ggplot(sw_june,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = Class)) + 
+              geom_bar(stat = "identity", 
+                       show.legend = FALSE) + 
+              theme_cowplot() + 
+              theme(axis.title = element_blank(), 
+                    axis.ticks = element_blank(), 
+                    axis.text = element_blank(), 
+                    axis.line = element_line(color = "white")) +  
+              scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                           "lightgoldenrod","grey","grey87")) + 
+              guides(fill = guide_legend(ncol = 1))
+
+p1_sw_july <- ggplot(sw_july,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = Class)) + 
+              geom_bar(stat = "identity", 
+                       show.legend = TRUE) +  
+              theme_cowplot() + 
+              theme(legend.title = element_text(size = 8),
+                    legend.text = element_text(size = 8),
+                    axis.title = element_blank(), 
+                    axis.ticks = element_blank(), 
+                    axis.text = element_blank(), 
+                    axis.line = element_line(color = "white")) +  
+              scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                           "lightgoldenrod","grey","grey87")) + 
+              guides(fill = guide_legend(ncol = 1))
+
+p1_sw_august <- ggplot(sw_august,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = Class)) + 
+                geom_bar(stat = "identity", 
+                         show.legend = FALSE) + 
+                theme_cowplot() + 
+                theme(axis.title =  element_blank(), 
+                      axis.ticks = element_blank(), 
+                      axis.text = element_blank(), 
+                      axis.line = element_line(color = "white")) +  
+                scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                             "lightgoldenrod","grey","grey87")) + 
+                guides(fill = guide_legend(ncol = 1))
+
+p1_sw_december <- ggplot(sw_december,aes(x = Sample,
+                                         y = Abundance,
+                                         fill = Class)) + 
+                geom_bar(stat = "identity", 
+                           show.legend = FALSE) + 
+                theme_cowplot() + 
+                theme(axis.title = element_blank(), 
+                        axis.ticks = element_blank(), 
+                        axis.text = element_blank(), 
+                        axis.line = element_line(color = "white")) +  
+                scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                            "lightgoldenrod","grey","grey87")) +  
+                guides(fill = guide_legend(ncol = 1))
+
+(p1_april|p1_april2|p2_april|p2_april2|p1_sw_april)/(p1_may|p2_may|p3_may|p4_may|p1_sw_may)/(p1_june|p2_june|p3_june|p4_june|p1_sw_june)/(p1_july|p2_july|p3_july|p4_july|p1_sw_july)/(p1_august|p2_august|p3_august|p4_august|p1_sw_august)/(p1_dec|p2_dec|p3_dec|p4_dec|p1_sw_december)
+
+ggsave("figures/Figure S2.tiff", units = "in", width = 10, height = 12, dpi = 300, compression = 'lzw')
+
+
+####=================================#####
+####      ANI analysis:Figure S3 E   #####
+####=================================#####
+
+data = read.table("data/ANI_results.txt",row.names = 1)
+library(pheatmap)
+library(RColorBrewer)
+library(wesanderson)
+library(viridis)
+library(gplots)
+pheatmap(as.matrix(data*100),show_rownames = F,fontsize = 8,display_numbers = T,color  = viridis(n = 100,direction = -1,option = "B",begin = 0.8),cluster_cols = T,cluster_rows = T,fontsize_number = 10,border_color = "black",number_col = "black")

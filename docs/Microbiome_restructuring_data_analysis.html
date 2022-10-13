@@ -1,0 +1,3758 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Kshitij" />
+
+
+<title>Endozoicomonas_species_dynamics_mSystems</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<link rel="icon" href="https://github.com/workflowr/workflowr-assets/raw/main/img/reproducible.png">
+<!-- Add a small amount of space between sections. -->
+<style type="text/css">
+div.section {
+  padding-top: 12px;
+}
+</style>
+
+
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Endozoicomonas-species-dynamics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+<li>
+  <a href="license.html">License</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Endozoicomonas_species_dynamics_mSystems</h1>
+<h4 class="author">Kshitij</h4>
+<h4 class="date">2021-1-20</h4>
+
+</div>
+
+
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span>
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span>
+</button>
+</p>
+<div id="workflowr-report" class="collapse">
+<ul class="nav nav-tabs">
+<li class="active">
+<a data-toggle="tab" href="#summary">Summary</a>
+</li>
+<li>
+<a data-toggle="tab" href="#checks"> Checks <span
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
+</li>
+<li>
+<a data-toggle="tab" href="#versions">Past versions</a>
+</li>
+</ul>
+<div class="tab-content">
+<div id="summary" class="tab-pane fade in active">
+<p>
+<strong>Last updated:</strong> 2022-10-13
+</p>
+<p>
+<strong>Checks:</strong> <span
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> 1
+</p>
+<p>
+<strong>Knit directory:</strong>
+<code>Endozoicomonas-species-dynamics/analysis/</code> <span
+class="glyphicon glyphicon-question-sign" aria-hidden="true"
+title="This is the local directory in which the code in this file was executed.">
+</span>
+</p>
+<p>
+This reproducible <a href="https://rmarkdown.rstudio.com">R Markdown</a>
+analysis was created with <a
+  href="https://github.com/workflowr/workflowr">workflowr</a> (version
+1.7.0). The <em>Checks</em> tab describes the reproducibility checks
+that were applied when the results were created. The <em>Past
+versions</em> tab lists the development history.
+</p>
+<hr>
+</div>
+<div id="checks" class="tab-pane fade">
+<div id="workflowr-checks" class="panel-group">
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
+</a>
+</p>
+</div>
+<div id="strongRMarkdownfilestronguptodate"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great! Since the R Markdown file has been committed to the Git
+repository, you know the exact version of the code that produced these
+results.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongEnvironmentstrongempty">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Environment:</strong> empty </a>
+</p>
+</div>
+<div id="strongEnvironmentstrongempty" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! The global environment was empty. Objects defined in the
+global environment can affect the analysis in your R Markdown file in
+unknown ways. For reproduciblity it’s best to always run the code in an
+empty environment.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSeedstrongcodesetseed20221012code">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Seed:</strong>
+<code>set.seed(20221012)</code> </a>
+</p>
+</div>
+<div id="strongSeedstrongcodesetseed20221012code"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>The command <code>set.seed(20221012)</code> was run prior to running
+the code in the R Markdown file. Setting a seed ensures that any results
+that rely on randomness, e.g. subsampling or permutations, are
+reproducible.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongSessioninformationstrongrecorded">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Session information:</strong>
+recorded </a>
+</p>
+</div>
+<div id="strongSessioninformationstrongrecorded"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>Great job! Recording the operating system, R version, and package
+versions is critical for reproducibility.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongCachestrongnone">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Cache:</strong> none </a>
+</p>
+</div>
+<div id="strongCachestrongnone" class="panel-collapse collapse">
+<div class="panel-body">
+<p>Nice! There were no cached chunks for this analysis, so you can be
+confident that you successfully produced the results during this
+run.</p>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongFilepathsstrongabsolute">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>File paths:</strong> absolute </a>
+</p>
+</div>
+<div id="strongFilepathsstrongabsolute" class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Using absolute paths to the files within your workflowr project makes it
+difficult for you and others to run your code on a different machine.
+Change the absolute path(s) below to the suggested relative path(s) to
+make your code more reproducible.
+</p>
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th style="text-align:left;">
+absolute
+</th>
+<th style="text-align:left;">
+relative
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/zotu_abundance_table.txt
+</td>
+<td style="text-align:left;">
+../data/zotu_abundance_table.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/zotu_taxtable.txt
+</td>
+<td style="text-align:left;">
+../data/zotu_taxtable.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/zotu_meta.txt
+</td>
+<td style="text-align:left;">
+../data/zotu_meta.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/All_phylum_only.txt
+</td>
+<td style="text-align:left;">
+../data/All_phylum_only.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/Endozoicomonas_only.txt
+</td>
+<td style="text-align:left;">
+../data/Endozoicomonas_only.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/heatmap_input_formatted_arrangeed_for_OUTER
+BAY plot.txt
+</td>
+<td style="text-align:left;">
+../data/heatmap_input_formatted_arrangeed_for_OUTER BAY plot.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/heatmap_input_formatted_arrangeed_for_Inner
+BAY plot.txt
+</td>
+<td style="text-align:left;">
+../data/heatmap_input_formatted_arrangeed_for_Inner BAY plot.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/observed_richness_coral_sw.csv
+</td>
+<td style="text-align:left;">
+../data/observed_richness_coral_sw.csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/even_InvSimpson_coral_sw.csv
+</td>
+<td style="text-align:left;">
+../data/even_InvSimpson_coral_sw.csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/shannon_coral_sw.csv
+</td>
+<td style="text-align:left;">
+../data/shannon_coral_sw.csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/chao1_coral_sw.csv
+</td>
+<td style="text-align:left;">
+../data/chao1_coral_sw.csv
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/all alpha.txt
+</td>
+<td style="text-align:left;">
+../data/all alpha.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/All_class_only.txt
+</td>
+<td style="text-align:left;">
+../data/All_class_only.txt
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis
+Manuscript/Endozoicomonas-species-dynamics/data/ANI_results.txt
+</td>
+<td style="text-align:left;">
+../data/ANI_results.txt
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+<p class="panel-title">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkshitijtandonEndozoicomonasspeciesdynamicstreeeea6ea93f33e725559d2b39628ae402c53cc8b81targetblankeea6ea9a">
+<span class="glyphicon glyphicon-ok text-success"
+aria-hidden="true"></span> <strong>Repository version:</strong>
+<a href="https://github.com/kshitijtandon/Endozoicomonas-species-dynamics/tree/eea6ea93f33e725559d2b39628ae402c53cc8b81" target="_blank">eea6ea9</a>
+</a>
+</p>
+</div>
+<div
+id="strongRepositoryversionstrongahrefhttpsgithubcomkshitijtandonEndozoicomonasspeciesdynamicstreeeea6ea93f33e725559d2b39628ae402c53cc8b81targetblankeea6ea9a"
+class="panel-collapse collapse">
+<div class="panel-body">
+<p>
+Great! You are using Git for version control. Tracking code development
+and connecting the code version to the results is critical for
+reproducibility.
+</p>
+<p>
+The results in this page were generated with repository version
+<a href="https://github.com/kshitijtandon/Endozoicomonas-species-dynamics/tree/eea6ea93f33e725559d2b39628ae402c53cc8b81" target="_blank">eea6ea9</a>.
+See the <em>Past versions</em> tab to see a history of the changes made
+to the R Markdown and HTML files.
+</p>
+<p>
+Note that you need to be careful to ensure that all relevant files for
+the analysis have been committed to Git prior to generating the results
+(you can use <code>wflow_publish</code> or
+<code>wflow_git_commit</code>). workflowr only checks the R Markdown
+file, but you know if there are other scripts or data files that it
+depends on. Below is the status of the Git repository when the results
+were generated:
+</p>
+<pre><code>
+Untracked files:
+    Untracked:  .Rprofile
+    Untracked:  .gitattributes
+    Untracked:  .gitignore
+    Untracked:  Endozoicomonas-species-dynamics.Rproj
+    Untracked:  R/
+    Untracked:  _workflowr.yml
+    Untracked:  analysis/
+    Untracked:  public/
+
+Unstaged changes:
+    Modified:   .DS_Store
+    Deleted:    Endozoicomonas-species-dynamics/docs/.nojekyll
+    Deleted:    Endozoicomonas-species-dynamics/docs/about.html
+    Deleted:    Endozoicomonas-species-dynamics/docs/index.html
+    Deleted:    Endozoicomonas-species-dynamics/docs/license.html
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css.map
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css.map
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/cerulean.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/cosmo.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/darkly.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/flatly.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Lato.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoBold.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoItalic.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycle.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycleBold.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSans.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBold.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBoldItalic.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansItalic.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLight.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLightItalic.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Raleway.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RalewayBold.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Roboto.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoBold.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoLight.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoMedium.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansPro.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProBold.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProItalic.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProLight.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Ubuntu.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/journal.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/lumen.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/paper.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/readable.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/sandstone.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/simplex.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/spacelab.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/united.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/yeti.min.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.eot
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.svg
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.ttf
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff2
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/js/bootstrap.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/js/bootstrap.min.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/js/npm.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/shim/html5shiv.min.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/shim/respond.min.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/header-attrs-2.16/header-attrs.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/highlightjs-9.12.0/default.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/highlightjs-9.12.0/highlight.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/highlightjs-9.12.0/textmate.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/jquery-3.6.0/jquery-3.6.0.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/jquery-3.6.0/jquery-3.6.0.min.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/jquery-3.6.0/jquery-3.6.0.min.map
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/codefolding-lua.css
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/codefolding.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/sourceembed.js
+    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/tabsets.js
+    Deleted:    Microbiome_restructuring_data_analysis.Rmd
+    Deleted:    Microbiome_restructuring_data_analysis.html
+    Deleted:    script/analysis_complete.R
+
+</code></pre>
+<p>
+Note that any generated files, e.g. HTML, png, CSS, etc., are not
+included in this status report because it is ok for generated content to
+have uncommitted changes.
+</p>
+</div>
+</div>
+</div>
+</div>
+<hr>
+</div>
+<div id="versions" class="tab-pane fade">
+<p>
+There are no past versions. Publish this analysis with
+<code>wflow_publish()</code> to start tracking its development.
+</p>
+<hr>
+</div>
+</div>
+</div>
+<div id="input-data" class="section level2">
+<h2>Input data</h2>
+<p>refer to data folder for files</p>
+<pre class="r"><code>otu &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/zotu_abundance_table.txt&quot;,
+                  row.names = 1, 
+                  header = T, 
+                  sep = &quot;\t&quot;)
+head(otu[1:5,1:5])</code></pre>
+<pre><code>         OB1_4 OB2_4 OB3_4 OB4_4 OB5_4
+zOTU_176     0     0     0     0     0
+zOTU_349     0     0     0     0     0
+zOTU_153     0     0     0     0     0
+zOTU_512     0     0     0     0     0
+zOTU_348     0     0     0     0     0</code></pre>
+<pre class="r"><code>otu &lt;- sqrt(otu) 
+
+tax &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/zotu_taxtable.txt&quot;,
+                  row.names = 1,
+                  header = T,
+                  sep = &quot;\t&quot;)
+head(tax[1:5,1:5])</code></pre>
+<pre><code>           Domain         Phylum               Class             Order
+zOTU_176 Bacteria Proteobacteria Gammaproteobacteria Oceanospirillales
+zOTU_349 Bacteria Proteobacteria Gammaproteobacteria Oceanospirillales
+zOTU_153 Bacteria     Chlamydiae          Chlamydiae      Chlamydiales
+zOTU_512 Bacteria Proteobacteria Gammaproteobacteria   Xanthomonadales
+zOTU_348 Bacteria    Tenericutes          Mollicutes Entomoplasmatales
+                                 Family
+zOTU_176                    Hahellaceae
+zOTU_349                    Hahellaceae
+zOTU_153                   Simkaniaceae
+zOTU_512               Xanthomonadaceae
+zOTU_348 Entomoplasmatales_unclassified</code></pre>
+<pre class="r"><code>OTU &lt;- otu_table(otu, taxa_are_rows = TRUE)
+head(OTU[1:5,1:5])</code></pre>
+<pre><code>OTU Table:          [5 taxa and 5 samples]
+                     taxa are rows
+         OB1_4 OB2_4 OB3_4 OB4_4 OB5_4
+zOTU_176     0     0     0     0     0
+zOTU_349     0     0     0     0     0
+zOTU_153     0     0     0     0     0
+zOTU_512     0     0     0     0     0
+zOTU_348     0     0     0     0     0</code></pre>
+<pre class="r"><code>tax &lt;- as.matrix(tax)
+TAX &lt;- tax_table(tax)
+head(TAX[1:5,1:5])</code></pre>
+<pre><code>Taxonomy Table:     [5 taxa by 5 taxonomic ranks]:
+         Domain     Phylum           Class                 Order              
+zOTU_176 &quot;Bacteria&quot; &quot;Proteobacteria&quot; &quot;Gammaproteobacteria&quot; &quot;Oceanospirillales&quot;
+zOTU_349 &quot;Bacteria&quot; &quot;Proteobacteria&quot; &quot;Gammaproteobacteria&quot; &quot;Oceanospirillales&quot;
+zOTU_153 &quot;Bacteria&quot; &quot;Chlamydiae&quot;     &quot;Chlamydiae&quot;          &quot;Chlamydiales&quot;     
+zOTU_512 &quot;Bacteria&quot; &quot;Proteobacteria&quot; &quot;Gammaproteobacteria&quot; &quot;Xanthomonadales&quot;  
+zOTU_348 &quot;Bacteria&quot; &quot;Tenericutes&quot;    &quot;Mollicutes&quot;          &quot;Entomoplasmatales&quot;
+         Family                          
+zOTU_176 &quot;Hahellaceae&quot;                   
+zOTU_349 &quot;Hahellaceae&quot;                   
+zOTU_153 &quot;Simkaniaceae&quot;                  
+zOTU_512 &quot;Xanthomonadaceae&quot;              
+zOTU_348 &quot;Entomoplasmatales_unclassified&quot;</code></pre>
+<pre class="r"><code>meta &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/zotu_meta.txt&quot;,
+                   header = T,
+                   row.names = 1,
+                   sep = &quot;\t&quot;)
+
+META &lt;- as.data.frame(meta)
+sample_meta &lt;- sample_data(META)</code></pre>
+<div id="create-a-phyloseq-object" class="section level3">
+<h3>Create a phyloseq object</h3>
+<pre class="r"><code>physeq &lt;- phyloseq(OTU,TAX,sample_meta) 
+physeq</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 2064 taxa and 122 samples ]
+sample_data() Sample Data:       [ 122 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 2064 taxa by 7 taxonomic ranks ]</code></pre>
+</div>
+</div>
+<div id="filter-phyloseq-object" class="section level2">
+<h2>Filter phyloseq object</h2>
+<p>Remove <em>Eukaryota</em>,unknown, Chloroplast, Mitochondria, and
+Unclassified <br> Bacteria domain, this is to keep zOTUs/ASVs with have
+are classified at least <br> at the phylum level. <strong>Note</strong>
+if you have already filtered your ASV table for <em>Eukaryota</em>,
+Chloroplast, and Mitochondria you can skip the specific steps.</p>
+<pre class="r"><code>filtered_physeq &lt;- subset_taxa(physeq, 
+                               Domain != &quot;Eukaryota&quot;)
+filtered_physeq</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 2024 taxa and 122 samples ]
+sample_data() Sample Data:       [ 122 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 2024 taxa by 7 taxonomic ranks ]</code></pre>
+<pre class="r"><code>filtered_physeq &lt;- subset_taxa(filtered_physeq, 
+                               Domain != &quot;unknown&quot;)
+filtered_physeq</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 2011 taxa and 122 samples ]
+sample_data() Sample Data:       [ 122 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 2011 taxa by 7 taxonomic ranks ]</code></pre>
+<pre class="r"><code>filtered_physeq &lt;- subset_taxa(filtered_physeq,
+                               Family != &quot;Mitochondria&quot;)
+filtered_physeq</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 2008 taxa and 122 samples ]
+sample_data() Sample Data:       [ 122 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 2008 taxa by 7 taxonomic ranks ]</code></pre>
+<pre class="r"><code>filtered_physeq &lt;- subset_taxa(filtered_physeq,
+                               Order != &quot;Chloroplast&quot;)
+filtered_physeq</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 2008 taxa and 122 samples ]
+sample_data() Sample Data:       [ 122 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 2008 taxa by 7 taxonomic ranks ]</code></pre>
+<pre class="r"><code>filtered_physeq &lt;- subset_taxa(filtered_physeq,
+                               Phylum != &quot;Bacteria_unclassified&quot;)
+filtered_physeq</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 1994 taxa and 122 samples ]
+sample_data() Sample Data:       [ 122 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 1994 taxa by 7 taxonomic ranks ]</code></pre>
+<div id="subset-healthy-corals" class="section level4">
+<h4>Subset Healthy corals</h4>
+<p>To compare samples, we first need to subset and extract only Healthy
+corals as during our experiment we noticed some coral fragments died
+after transplantation.</p>
+<pre class="r"><code>healthy_coral &lt;- subset_samples(filtered_physeq,
+                                Health == &quot;Healthy&quot;)
+healthy_coral</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 1994 taxa and 100 samples ]
+sample_data() Sample Data:       [ 100 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 1994 taxa by 7 taxonomic ranks ]</code></pre>
+</div>
+</div>
+<div id="comparing-microbial-community-across-samples"
+class="section level2">
+<h2>Comparing Microbial Community across samples</h2>
+<div id="control-samples" class="section level4">
+<h4>Control samples</h4>
+<p>In this project we have two location; Inner Bay and Outer Bay. <br>
+These locations harbor different environmental conditions on which
+the<br> coral reefs thrive.</p>
+<p>NMDS plot of microbial community in control samples at Outer and
+Inner Bay</p>
+<pre class="r"><code>control &lt;- subset_samples(healthy_coral,
+                          Type == &quot;Control&quot;)
+
+control_dist &lt;- phyloseq::distance(control, 
+                                   method = &quot;bray&quot;)
+
+control_nmds &lt;- ordinate(control,
+                         &quot;NMDS&quot;,
+                         control_dist)</code></pre>
+<pre><code>Run 0 stress 0.1591809 
+Run 1 stress 0.1591809 
+... New best solution
+... Procrustes: rmse 5.040457e-06  max resid 1.712327e-05 
+... Similar to previous best
+Run 2 stress 0.1791398 
+Run 3 stress 0.1744057 
+Run 4 stress 0.1793955 
+Run 5 stress 0.1652679 
+Run 6 stress 0.1781974 
+Run 7 stress 0.181678 
+Run 8 stress 0.1922961 
+Run 9 stress 0.1798758 
+Run 10 stress 0.1905587 
+Run 11 stress 0.1686103 
+Run 12 stress 0.1834313 
+Run 13 stress 0.1683024 
+Run 14 stress 0.1899838 
+Run 15 stress 0.1591809 
+... Procrustes: rmse 1.83078e-05  max resid 8.940396e-05 
+... Similar to previous best
+Run 16 stress 0.194018 
+Run 17 stress 0.1895982 
+Run 18 stress 0.1814335 
+Run 19 stress 0.1885166 
+Run 20 stress 0.2008078 
+*** Solution reached</code></pre>
+<pre class="r"><code>control_nmds$stress</code></pre>
+<pre><code>[1] 0.1591809</code></pre>
+<pre class="r"><code>c1 &lt;- plot_ordination(control, 
+                      control_nmds,
+                      color=&quot;Sampletype&quot;,
+                      shape=&quot;Sampletype&quot;, 
+                      title=&quot;All control samples Outer and Inner bay&quot;) + 
+      geom_point(size=3) + 
+      theme_bw() + 
+      theme(text = element_text(size=10),
+            panel.grid = element_blank())
+
+c1 &lt;- c1 + 
+      scale_color_manual(values = c(&quot;burlywood4&quot;,&quot;yellowgreen&quot;))
+
+c1 &lt;- c1 + stat_ellipse(type=&quot;norm&quot;,linetype=2)
+
+c1_grob &lt;- grid.text(&quot;Stress:0.159&quot;)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Only%20control%20samples%20over%20time-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>c1 &lt;- c1 + 
+      annotation_custom(grob = c1_grob,xmin = 0.5, ymin = 0.55)
+
+c1</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Only%20control%20samples%20over%20time-2.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="phylum-level-analysis" class="section level2">
+<h2>Phylum level Analysis</h2>
+<pre class="r"><code>data &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/All_phylum_only.txt&quot;,
+                   header = T,
+                   row.names = 1, 
+                   sep = &quot;\t&quot;)
+data_t &lt;- t(data)
+
+head(data_t[1:5,1:5])</code></pre>
+<pre><code>      Proteobacteria Chlamydiae Tenericutes Cyanobacteria Bacteroidetes
+OB1_4           7772       4139          23             1            23
+OB2_4          37330       1986          35             6             8
+OB3_4          14230       6379           0             2            16
+OB4_4          29904       7743           4             3            19
+OB5_4          22835       5654           1             2            25</code></pre>
+<pre class="r"><code>rel_abundance &lt;- (data_t/rowSums(data_t))*100
+
+head(rel_abundance[1:5,1:5])</code></pre>
+<pre><code>      Proteobacteria Chlamydiae Tenericutes Cyanobacteria Bacteroidetes
+OB1_4       64.98328  34.607023 0.192307692   0.008361204    0.19230769
+OB2_4       94.75100   5.040865 0.088836997   0.015229199    0.02030560
+OB3_4       68.97387  30.919490 0.000000000   0.009694150    0.07755320
+OB4_4       79.37570  20.552636 0.010617402   0.007963051    0.05043266
+OB5_4       80.02173  19.813569 0.003504345   0.007008691    0.08760863</code></pre>
+<pre class="r"><code>rel_abundance &lt;- t(rel_abundance)
+
+df_cob_april &lt;- melt(t(rel_abundance[,1:5]))
+df_cib_april &lt;- melt(t(rel_abundance[,6:10]))
+
+df_cob_may &lt;- melt(t(rel_abundance[,11:15]))
+df_i2o_may &lt;- melt(t(rel_abundance[,16:20]))
+df_cib_may &lt;- melt(t(rel_abundance[,21:25]))
+df_o2i_may &lt;- melt(t(rel_abundance[,26:30]))
+
+df_cob_june &lt;- melt(t(rel_abundance[,31:35]))
+df_i2o_june &lt;- melt(t(rel_abundance[,36:40]))
+df_cib_june &lt;- melt(t(rel_abundance[,41:45]))
+df_o2i_june &lt;- melt(t(rel_abundance[,46:50]))
+df_cob_july &lt;- melt(t(rel_abundance[,51:55]))
+df_i2o_july &lt;- melt(t(rel_abundance[,56:60]))
+df_cib_july &lt;- melt(t(rel_abundance[,61:65]))
+df_o2i_july &lt;- melt(t(rel_abundance[,66:70]))
+df_cob_august &lt;- melt(t(rel_abundance[,71:75]))
+df_i2o_august &lt;- melt(t(rel_abundance[,76:80]))
+df_cib_august &lt;- melt(t(rel_abundance[,81:85]))
+df_o2i_august &lt;- melt(t(rel_abundance[,86:90]))
+df_cob_dec &lt;- melt(t(rel_abundance[,91:95]))
+df_i2o_dec &lt;- melt(t(rel_abundance[,96:100]))
+df_cib_dec &lt;- melt(t(rel_abundance[,101:105]))
+df_o2i_dec &lt;- melt(t(rel_abundance[,106:110]))
+
+sw_april &lt;- melt(t(rel_abundance[,111:112]))
+sw_may &lt;- melt(t(rel_abundance[,113:114]))            
+sw_june &lt;- melt(t(rel_abundance[,115:116])) 
+sw_july &lt;- melt(t(rel_abundance[,117:118])) 
+sw_august &lt;- melt(t(rel_abundance[,119:120])) 
+sw_december &lt;- melt(t(rel_abundance[,121:122])) 
+
+
+Colors_gene_phylum_surface = c(&quot;#b1c2fc&quot;,&quot;#e79158&quot;,&quot;lightskyblue3&quot;,
+                              &quot;darkolivegreen&quot;,&quot;olivedrab&quot;,&quot;slategray2&quot;,
+                              &quot;#d9eab8&quot;, &quot;#937226&quot;,&quot;#464446&quot;,&quot;#a2b4c8&quot;,
+                              &quot;#5892c7&quot;, &quot;#cc1818&quot;,&quot;#f99888&quot;, &quot;#696966&quot;)
+
+colnames(df_cob_april) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_cib_april) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_cob_may) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_cib_may) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_may) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_may) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_june) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_cib_june) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_june) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_june) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_july) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_cib_july) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_july) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_july) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_august) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_cib_august) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_august) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_august) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_dec) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_cib_dec) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_dec) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_dec) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+
+colnames(sw_april) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(sw_may) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(sw_june) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(sw_july) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(sw_august) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+colnames(sw_december) &lt;- c(&quot;Sample&quot;,&quot;Phylum&quot;,&quot;Abundance&quot;)
+
+test_col &lt;- brewer.pal(12,&quot;Paired&quot;)
+
+
+p1_april &lt;- ggplot(df_cob_april,aes(x=Sample,
+                                    y=Abundance,
+                                    fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y=element_text(size=9,face=&quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;))  +     
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1)) + 
+  labs(y=&quot;April&quot;)
+
+p1_april2 &lt;- ggplot(df_cob_april,aes(x=Sample,
+                                     y=Abundance,
+                                     fill=&quot;white&quot;)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE,
+           fill=&quot;white&quot;) + 
+  theme_cowplot() +  
+  theme(axis.title= element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+
+p2_april &lt;- ggplot(df_cib_april,aes(x=Sample,
+                                    y=Abundance,
+                                    fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p2_april2 &lt;- ggplot(df_cib_april,aes(x=Sample,
+                                     y=Abundance,
+                                     fill=&quot;white&quot;)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE,
+           fill=&quot;white&quot;) + 
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+
+p1_may &lt;- ggplot(df_cob_may,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x=element_blank(),
+        axis.title.y=element_text(size=9,face = &quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1)) + 
+  labs(y=&quot;May&quot;)
+
+p2_may &lt;- ggplot(df_i2o_may,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p3_may &lt;- ggplot(df_cib_may,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p4_may &lt;- ggplot(df_o2i_may,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p1_june &lt;- ggplot(df_cob_june,aes(x=Sample,
+                                  y=Abundance,
+                                  fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title.x = element_blank(),
+        axis.title.y=element_text(size=9,face=&quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1)) +  
+  labs(y=&quot;June&quot;)
+
+
+p2_june &lt;- ggplot(df_i2o_june,aes(x=Sample,
+                                  y=Abundance,
+                                  fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p3_june &lt;- ggplot(df_cib_june,aes(x=Sample,
+                                  y=Abundance,
+                                  fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p4_june &lt;- ggplot(df_o2i_june,aes(x=Sample,
+                                  y=Abundance,
+                                  fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p1_july &lt;- ggplot(df_cob_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title.x = element_blank(),
+        axis.title.y=element_text(size=9,face=&quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1)) + 
+  labs(y=&quot;July&quot;)
+
+p2_july &lt;- ggplot(df_i2o_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p3_july &lt;- ggplot(df_cib_july,aes(x=Sample,
+                                  y=Abundance,
+                                  fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p4_july &lt;- ggplot(df_o2i_july,aes(x=Sample,
+                                  y=Abundance,
+                                  fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p1_august &lt;- ggplot(df_cob_august,aes(x=Sample,
+                                      y=Abundance,
+                                      fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size=9,face=&quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1)) +  
+  labs(y=&quot;August&quot;)
+
+p2_august &lt;- ggplot(df_i2o_august,aes(x=Sample,
+                                      y=Abundance,
+                                      fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p3_august &lt;- ggplot(df_cib_august,aes(x=Sample,
+                                      y=Abundance,
+                                      fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p4_august &lt;- ggplot(df_o2i_august,aes(x=Sample,
+                                      y=Abundance,
+                                      fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+
+p1_dec &lt;- ggplot(df_cob_dec,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size=9,face=&quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1)) + 
+  labs(y=&quot;December&quot;)
+
+p2_dec &lt;- ggplot(df_i2o_dec,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p3_dec &lt;- ggplot(df_cib_dec,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p4_dec &lt;- ggplot(df_o2i_dec,aes(x=Sample,
+                                y=Abundance,
+                                fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p1_sw_april &lt;- ggplot(sw_april,aes(x=Sample,
+                                   y=Abundance,
+                                   fill=Phylum)) +  
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p1_sw_may &lt;- ggplot(sw_may,aes(x=Sample,
+                               y=Abundance,
+                               fill=Phylum)) +  
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() +  
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+  guides(fill=guide_legend(ncol=1))
+
+p1_sw_june &lt;- ggplot(sw_june,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = Phylum)) +  
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +  
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p1_sw_july &lt;- ggplot(sw_july,aes(x=Sample,
+                                 y=Abundance,
+                                 fill=Phylum)) +  
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = TRUE) +  
+  theme_cowplot() + 
+  theme(legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +
+  scale_fill_manual(values = c(Colors_gene_phylum_surface,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol=1))
+
+
+p1_sw_august &lt;- ggplot(sw_august,aes(x = Sample,
+                                     y=Abundance,
+                                     fill=Phylum)) + 
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) +
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+p1_sw_december &lt;- ggplot(sw_december,aes(x=Sample,
+                                         y=Abundance,
+                                         fill=Phylum)) +  
+  geom_bar(stat=&quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color=&quot;white&quot;)) + 
+  scale_fill_manual(values=c(Colors_gene_phylum_surface,
+                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill=guide_legend(ncol=1))
+
+(p1_april|p1_april2|p2_april|p2_april2|p1_sw_april)/(p1_may|p2_may|p3_may|p4_may|p1_sw_may)/(p1_june|p2_june|p3_june|p4_june|p1_sw_june)/(p1_july|p2_july|p3_july|p4_july|p1_sw_july)/(p1_august|p2_august|p3_august|p4_august|p1_sw_august)/(p1_dec|p2_dec|p3_dec|p4_dec|p1_sw_december)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Phylum%20level-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="endozoicomonas-specific-analysis" class="section level2">
+<h2>Endozoicomonas specific analysis</h2>
+<pre class="r"><code>data &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/Endozoicomonas_only.txt&quot;,
+                   header = T,
+                   row.names = 1,
+                   sep = &quot;\t&quot;)
+data_t &lt;- t(data)
+head(data_t)</code></pre>
+<pre><code>      zOTU1 zOTU2 zOTU7 zOTU9 zOTU10 zOTU11 zOTU12 zOTU13 zOTU14 zOTU15 zOTU16
+OB1_4  2288  2024    72    73    501    456    388    485    201    139     90
+OB2_4 10199  6820   668   244   2095   1419   1488   2172   3937    854    456
+OB3_4  1871  5185    54    81    353   1073   1139   1261    258    491    120
+OB4_4  3751 11132   326   264    621   2632   2413   2880    575   1201    503
+OB5_4  4471  7498   199   183    956   1569   1595   1822    202    733    924
+IB1_4    85    93 25213 21576      4     22     16     19     34    105     30
+      zOTU17 zOTU18 Other (Endozoicomonas) Other (Bacteria)
+OB1_4      0    131                    663             4842
+OB2_4      1    355                   6498             2210
+OB3_4      0    270                   1927             6611
+OB4_4      1    563                   2699             8201
+OB5_4      1    519                   2042             5934
+IB1_4     12     89                   1720            18580</code></pre>
+<pre class="r"><code>rel_abundance &lt;- (data_t/rowSums(data_t))*100
+head(rel_abundance)</code></pre>
+<pre><code>           zOTU1     zOTU2      zOTU7      zOTU9      zOTU10     zOTU11
+OB1_4 18.5218166 16.384684  0.5828544  0.5909496 4.055694973 3.69141099
+OB2_4 25.8752791 17.302618  1.6947433  0.6190380 5.315100467 3.60006089
+OB3_4  9.0412680 25.055572  0.2609452  0.3914178 1.705808447 5.18507780
+OB4_4  9.9332662 29.479371  0.8633017  0.6991155 1.644510354 6.96996981
+OB5_4 15.6066741 26.172857  0.6946384  0.6387880 3.337056688 5.47682212
+IB1_4  0.1257434  0.137578 37.2984408 31.9181041 0.005917335 0.03254534
+          zOTU12     zOTU13     zOTU14   zOTU15     zOTU16      zOTU17
+OB1_4 3.14093742 3.92617178 1.62713511 1.125233 0.72856796 0.000000000
+OB2_4 3.77511670 5.51045261 9.98832961 2.166633 1.15689060 0.002537041
+OB3_4 5.50401082 6.09355369 1.24673818 2.372668 0.57987823 0.000000000
+OB4_4 6.39002171 7.62671469 1.52269477 3.180446 1.33202691 0.002648165
+OB5_4 5.56757889 6.35995532 0.70511030 2.558643 3.22535605 0.003490645
+IB1_4 0.02366934 0.02810734 0.05029735 0.155330 0.04438001 0.017752004
+         zOTU18 Other (Endozoicomonas) Other (Bacteria)
+OB1_4 1.0604711               5.367117         39.19696
+OB2_4 0.9006495              16.485691          5.60686
+OB3_4 1.3047260               9.311878         31.94646
+OB4_4 1.4909168               7.147397         21.71760
+OB5_4 1.8116448               7.127897         20.71349
+IB1_4 0.1316607               2.544454         27.48602</code></pre>
+<pre class="r"><code>rel_abundance &lt;- t(rel_abundance)
+
+df_cob_april &lt;- melt(t(rel_abundance[,1:5]))
+df_cib_april &lt;- melt(t(rel_abundance[,6:10]))
+
+df_cob_may &lt;- melt(t(rel_abundance[,11:15]))
+df_i2o_may &lt;- melt(t(rel_abundance[,16:20]))
+df_cib_may &lt;- melt(t(rel_abundance[,21:25]))
+df_o2i_may &lt;- melt(t(rel_abundance[,26:30]))
+
+df_cob_june &lt;- melt(t(rel_abundance[,31:35]))
+df_i2o_june &lt;- melt(t(rel_abundance[,36:40]))
+df_cib_june &lt;- melt(t(rel_abundance[,41:45]))
+df_o2i_june &lt;- melt(t(rel_abundance[,46:50]))
+df_cob_july &lt;- melt(t(rel_abundance[,51:55]))
+df_i2o_july &lt;- melt(t(rel_abundance[,56:60]))
+df_cib_july &lt;- melt(t(rel_abundance[,61:65]))
+df_o2i_july &lt;- melt(t(rel_abundance[,66:70]))
+df_cob_august &lt;- melt(t(rel_abundance[,71:75]))
+df_i2o_august &lt;- melt(t(rel_abundance[,76:80]))
+df_cib_august &lt;- melt(t(rel_abundance[,81:85]))
+df_o2i_august &lt;- melt(t(rel_abundance[,86:90]))
+df_cob_dec &lt;- melt(t(rel_abundance[,91:95]))
+df_i2o_dec &lt;- melt(t(rel_abundance[,96:100]))
+df_cib_dec &lt;- melt(t(rel_abundance[,101:105]))
+df_o2i_dec &lt;- melt(t(rel_abundance[,106:110]))
+
+sw_april &lt;- melt(t(rel_abundance[,111:112]))
+sw_may &lt;- melt(t(rel_abundance[,113:114]))            
+sw_june &lt;- melt(t(rel_abundance[,115:116])) 
+sw_july &lt;- melt(t(rel_abundance[,117:118])) 
+sw_august &lt;- melt(t(rel_abundance[,119:120])) 
+sw_december &lt;- melt(t(rel_abundance[,121:122])) 
+
+
+colnames(df_cob_april) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_cib_april) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_cob_may) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_cib_may) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_i2o_may) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_o2i_may) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+
+colnames(df_cob_june) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_cib_june) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_i2o_june) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_o2i_june) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+
+colnames(df_cob_july) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_cib_july) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_i2o_july) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_o2i_july) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+
+colnames(df_cob_august) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_cib_august) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_i2o_august) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_o2i_august) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+
+colnames(df_cob_dec) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_cib_dec) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_i2o_dec) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(df_o2i_dec) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+
+colnames(sw_april)  &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(sw_may)  &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(sw_june) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(sw_july) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(sw_august) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+colnames(sw_december) &lt;- c(&quot;Sample&quot;, &quot;zOTU&quot;, &quot;Abundance&quot;)
+
+test_col &lt;- brewer.pal(12,&quot;Paired&quot;)
+
+
+p1_april &lt;- ggplot(df_cob_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(),
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = &quot;April&quot;)
+
+p1_april2 &lt;- ggplot(df_cob_april,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = &quot;white&quot;)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE,fill = &quot;white&quot;) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  guides(fill = guide_legend(ncol = 1))
+
+
+
+p2_april &lt;- ggplot(df_cib_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p2_april2 &lt;- ggplot(df_cib_april,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE,
+           fill = &quot;white&quot;) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(),
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_may &lt;- ggplot(df_cob_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = &quot;May&quot;)
+
+p2_may &lt;- ggplot(df_i2o_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_may &lt;- ggplot(df_cib_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(),
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_may &lt;- ggplot(df_o2i_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_june &lt;- ggplot(df_cob_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = &quot;June&quot;)
+
+p2_june &lt;- ggplot(df_i2o_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_june &lt;- ggplot(df_cib_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_june &lt;- ggplot(df_o2i_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_july &lt;- ggplot(df_cob_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend  = FALSE) +  
+  theme_cowplot() +   
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,
+                                    face = &quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = &quot;July&quot;)
+
+p2_july &lt;- ggplot(df_i2o_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_july &lt;- ggplot(df_cib_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_july &lt;- ggplot(df_o2i_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_august &lt;- ggplot(df_cob_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x = element_blank(),
+        axis.title.y = element_text(size = 9,
+                                    face = &quot;bold&quot;), 
+        axis.ticks  = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line  = element_line(color = &quot;white&quot;)) + 
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1)) +
+  labs(y = &quot;August&quot;)
+
+p2_august &lt;- ggplot(df_i2o_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_august &lt;- ggplot(df_cib_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_august &lt;- ggplot(df_o2i_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+
+p1_dec &lt;- ggplot(df_cob_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title.x  = element_blank(),
+        axis.title.y = element_text(size = 9,
+                                    face = &quot;bold&quot;), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1)) + 
+  labs(y = &quot;December&quot;)
+
+
+p2_dec &lt;- ggplot(df_i2o_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p3_dec &lt;- ggplot(df_cib_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p4_dec &lt;- ggplot(df_o2i_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(),
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_april &lt;- ggplot(sw_april,aes(x = Sample,
+                                   y = Abundance,
+                                   fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, show.legend = FALSE) +  
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) +  
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_may &lt;- ggplot(sw_may,aes(x = Sample,
+                               y = Abundance,
+                               fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend  = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) + 
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_june &lt;- ggplot(sw_june,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = zOTU)) +
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title  = element_blank(), 
+        axis.ticks =  element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) + 
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_july &lt;- ggplot(sw_july,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend  = TRUE) + 
+  theme_cowplot() + 
+  theme(legend.title = element_text(size = 8),
+        legend.text = element_text(size = 8),
+        axis.title  = element_blank(), 
+        axis.ticks  = element_blank(), 
+        axis.text =  element_blank(), 
+        axis.line =  element_line(color = &quot;white&quot;)) + 
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_august &lt;- ggplot(sw_august,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks  = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line = element_line(color = &quot;white&quot;)) + 
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+  guides(fill = guide_legend(ncol = 1))
+
+p1_sw_december &lt;- ggplot(sw_december,aes(x = Sample,
+                                         y = Abundance,
+                                         fill = zOTU)) + 
+  geom_bar(stat = &quot;identity&quot;, 
+           show.legend = FALSE) + 
+  theme_cowplot() + 
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(), 
+        axis.text = element_blank(), 
+        axis.line =  element_line(color = &quot;white&quot;)) + 
+  scale_fill_manual(values = c(test_col,
+                               &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +
+  guides(fill = guide_legend(ncol = 1))
+
+(p1_april|p1_april2|p2_april|p2_april2|p1_sw_april)/(p1_may|p2_may|p3_may|p4_may|p1_sw_may)/(p1_june|p2_june|p3_june|p4_june|p1_sw_june)/(p1_july|p2_july|p3_july|p4_july|p1_sw_july)/(p1_august|p2_august|p3_august|p4_august|p1_sw_august)/(p1_dec|p2_dec|p3_dec|p4_dec|p1_sw_december)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Only%20Endozoicomonas-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="lefse-analysis" class="section level2">
+<h2>LefSe Analysis</h2>
+<p>LefSe code might not work as the R library I used has been updated
+with <br> previous version now scrubbed. There is however, a new code
+<em>run_lefse</em> with <br> slight tweeks in the command. Please check
+<em>microbiomeMarker</em> for more details.</p>
+<pre class="r"><code>ob_lefse &lt;- lefse(ob,
+                  group = &quot;Sampletype&quot;,
+                  lda_cutoff = 3)
+
+ob_lefse_p1 &lt;- lefse_barplot(ob_lefse,
+                             label_level = 1) + 
+  theme(text = element_text(size=8))
+
+ob_lefse_p1 &lt;- ob_lefse_p1 + 
+  scale_fill_manual(values = c(&quot;yellowgreen&quot;,&quot;plum3&quot;))
+
+write.table(marker_table(ob_lefse),file=&quot;data/ob_lefse_output.txt&quot;,sep=&quot;\t&quot;)
+
+### Note you will need to format the lefse output files for plotting heatmaps
+
+heatmap_outerbay &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/heatmap_input_formatted_arrangeed_for_OUTER BAY plot.txt&quot;,
+                               header = T, 
+                               row.names = 1,
+                               sep = &quot;\t&quot;)
+
+annotation_col_outer &lt;- data.frame(Groups = factor(rep(c(&quot;OC&quot;,&quot;IO&quot;),c(30,25))))
+
+
+rownames(annotation_col_outer) &lt;- colnames(heatmap_outerbay)
+ann_colors &lt;- list(Groups = c(OC = &quot;mediumaquamarine&quot;,
+                              IO = &quot;plum3&quot;))
+
+pheatmap(as.matrix(heatmap_outerbay), 
+         scale = &quot;row&quot;,
+         border_color = NA,
+         cluster_rows = F,
+         cluster_cols = F,
+         clustering_method = &quot;ward.D2&quot;,
+         color = colorRampPalette(c(&quot;grey&quot;, &quot;white&quot;, &quot;blue&quot;))(500), 
+         cutree_rows = 4,
+         fontsize_col = 6,
+         annotation_col = annotation_col_outer,
+         annotation_colors = ann_colors, 
+         annotation_legend = TRUE, 
+         labels_col = &quot;&quot;)
+
+
+
+ib_lefse &lt;- lefse(ib,
+                  class = &quot;Sampletype&quot;,
+                  lda_cutoff = 3, 
+                  summarize = F)
+
+ib_lefse_p2 &lt;- lefse_barplot(ib_lefse,
+                             label_level = 1) + 
+  theme(text = element_text(size=8))
+
+ib_lefse_p2 &lt;- ib_lefse_p2 + 
+  scale_fill_manual(values = c(&quot;yellowgreen&quot;,&quot;plum3&quot;))
+
+write.table(marker_table(ib_lefse), file = &quot;data/ib_lefse_output.txt&quot;, sep = &quot;\t&quot;)
+
+
+### Note you will need to format the lefse output files for plotting heatmaps
+
+heatmap_innerbay &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/heatmap_input_formatted_arrangeed_for_Inner BAY plot.txt&quot;,
+                               header = T, 
+                               row.names = 1,
+                               sep = &quot;\t&quot;)
+
+annotation_col_inner &lt;- data.frame(Groups = factor(rep(c(&quot;IC&quot;,&quot;OI&quot;),c(27,18))))
+
+rownames(annotation_col) &lt;- colnames(heatmap_innerbay)
+ann_colors &lt;- list(Groups = c(IC = &quot;yellowgreen&quot;,
+                              OI = &quot;palevioletred&quot;))
+
+
+pheatmap(as.matrix(heatmap_innerbay), 
+         scale = &quot;row&quot;,
+         border_color = NA,
+         cluster_rows = F,
+         cluster_cols = F,
+         clustering_method = &quot;ward.D2&quot;,
+         color = colorRampPalette(c(&quot;grey&quot;, &quot;white&quot;, &quot;blue&quot;))(500), 
+         cutree_rows = 4,
+         fontsize_col = 6,
+         annotation_col = annotation_col_inner,
+         annotation_colors = ann_colors, 
+         annotation_legend = TRUE, 
+         labels_col = &quot;&quot;)</code></pre>
+<div id="locationouter-bay" class="section level4">
+<h4>Location:Outer Bay</h4>
+<p>We transplanted coral colonies from Inner bay to Outer Bay and
+compared with<br> Outer Bay Control samples throughout the
+experiment.</p>
+<pre class="r"><code>ob &lt;- subset_samples(healthy_coral,
+                     Location == &quot;Outer&quot;)
+ob</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 1994 taxa and 55 samples ]
+sample_data() Sample Data:       [ 55 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 1994 taxa by 7 taxonomic ranks ]</code></pre>
+<pre class="r"><code>ob_dist &lt;- phyloseq::distance(ob,
+                              method = &quot;bray&quot;)
+ob_nmds&lt;-ordinate(ob,
+                  &quot;NMDS&quot;,
+                  distance = ob_dist)</code></pre>
+<pre><code>Run 0 stress 0.1657188 
+Run 1 stress 0.1808372 
+Run 2 stress 0.1848628 
+Run 3 stress 0.179871 
+Run 4 stress 0.1669052 
+Run 5 stress 0.1813768 
+Run 6 stress 0.1711748 
+Run 7 stress 0.1936399 
+Run 8 stress 0.1850631 
+Run 9 stress 0.1668127 
+Run 10 stress 0.1850604 
+Run 11 stress 0.1668127 
+Run 12 stress 0.1785 
+Run 13 stress 0.1710756 
+Run 14 stress 0.1772389 
+Run 15 stress 0.1668127 
+Run 16 stress 0.1657188 
+... New best solution
+... Procrustes: rmse 1.168947e-05  max resid 3.747512e-05 
+... Similar to previous best
+Run 17 stress 0.1961559 
+Run 18 stress 0.1877833 
+Run 19 stress 0.16643 
+Run 20 stress 0.1668127 
+*** Solution reached</code></pre>
+<pre class="r"><code>ob_nmds$stress</code></pre>
+<pre><code>[1] 0.1657188</code></pre>
+<pre class="r"><code>p1 &lt;- plot_ordination(ob,
+                      ordination = ob_nmds,
+                      color=&quot;Sampletype&quot;, 
+                      title=&quot; Location:Outer-bay&quot;) + 
+      geom_point(size=3) + 
+      theme_bw()+ 
+      theme(text = element_text(size = 10), 
+            panel.grid = element_blank())
+
+p1 &lt;- p1 + 
+      scale_color_manual(values = c(&quot;burlywood4&quot;,&quot;palevioletred&quot;))
+
+p1 &lt;- p1 + stat_ellipse(type =&quot;norm&quot;,
+                        linetype = 2)
+
+ob_grob &lt;- grid.text(&quot;Stress:0.167&quot;)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Outer%20Bay-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p1 &lt;- p1 + 
+      annotation_custom(grob = ob_grob,
+                        xmin = 0.4,
+                        ymin = 0.37)
+
+p1</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Outer%20Bay-2.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="statistical-test" class="section level5">
+<h5>Statistical test</h5>
+<p>Performing <em>Permanova</em> and <em>Betadisper</em> for identifying
+dispersion within groups</p>
+<pre class="r"><code>ob_df &lt;- as(sample_data(ob),
+            &quot;data.frame&quot;)
+
+ob_groups_sampletype &lt;- ob_df$Sampletype
+
+#run betadisper for dispersion within groups significance
+betadisper_ob_sampletype &lt;- betadisper(ob_dist,
+                                       ob_groups_sampletype) 
+
+anova(betadisper_ob_sampletype) #not significant</code></pre>
+<pre><code>Analysis of Variance Table
+
+Response: Distances
+          Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+Groups     1 0.02527 0.025268  1.4652 0.2315
+Residuals 53 0.91399 0.017245               </code></pre>
+<pre class="r"><code>ob_groups_month&lt;-ob_df$Month
+
+betadisper_ob_month &lt;- betadisper(ob_dist,
+                                  ob_groups_month)
+anova(betadisper_ob_month) #not significant </code></pre>
+<pre><code>Analysis of Variance Table
+
+Response: Distances
+          Df  Sum Sq  Mean Sq F value  Pr(&gt;F)  
+Groups     5 0.17207 0.034415  2.0881 0.08275 .
+Residuals 49 0.80758 0.016481                  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>anova_ob &lt;- adonis2(ob_dist~Sampletype*Month,data=data.frame(sample_data(ob)), permutations=999)
+anova_ob</code></pre>
+<pre><code>Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = ob_dist ~ Sampletype * Month, data = data.frame(sample_data(ob)), permutations = 999)
+                 Df SumOfSqs      R2      F Pr(&gt;F)    
+Sampletype        1   0.5863 0.06204 4.6800  0.001 ***
+Month             5   2.5888 0.27391 4.1329  0.001 ***
+Sampletype:Month  4   0.7638 0.08081 1.5241  0.027 *  
+Residual         44   5.5123 0.58324                  
+Total            54   9.4512 1.00000                  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+</div>
+<div id="locationinner-bay" class="section level4">
+<h4>Location:Inner Bay</h4>
+<p>We transplanted coral colonies from Outer bay to Inner Bay and
+compared with<br> Inner Bay Control samples throughout the
+experiment.</p>
+<pre class="r"><code>ib &lt;- subset_samples(healthy_coral,
+                     Location == &quot;Inner&quot;)
+
+ib_dist &lt;- phyloseq::distance(ib,
+                              method = &quot;bray&quot;)
+
+ib_nmds&lt;-ordinate(ib,
+                  &quot;NMDS&quot;,
+                  distance = ib_dist)</code></pre>
+<pre><code>Run 0 stress 0.1736128 
+Run 1 stress 0.1879228 
+Run 2 stress 0.2200196 
+Run 3 stress 0.197945 
+Run 4 stress 0.1859849 
+Run 5 stress 0.1884437 
+Run 6 stress 0.1884861 
+Run 7 stress 0.1884858 
+Run 8 stress 0.182179 
+Run 9 stress 0.1845141 
+Run 10 stress 0.1845141 
+Run 11 stress 0.1737346 
+... Procrustes: rmse 0.003837362  max resid 0.02170095 
+Run 12 stress 0.1913586 
+Run 13 stress 0.1845141 
+Run 14 stress 0.1979452 
+Run 15 stress 0.1991367 
+Run 16 stress 0.197419 
+Run 17 stress 0.1737344 
+... Procrustes: rmse 0.003804349  max resid 0.02158358 
+Run 18 stress 0.1857269 
+Run 19 stress 0.1737344 
+... Procrustes: rmse 0.003807768  max resid 0.02159693 
+Run 20 stress 0.1978792 
+*** No convergence -- monoMDS stopping criteria:
+    20: stress ratio &gt; sratmax</code></pre>
+<pre class="r"><code>p2 &lt;- plot_ordination(ib,
+                      ordination = ib_nmds,
+                      color=&quot;Sampletype&quot;, title=&quot;Location: Inner-bay&quot;) +   
+      geom_point(size=3) +
+      theme_bw() + 
+      theme(text = element_text(size=10),
+            panel.grid = element_blank())
+
+p2 &lt;- p2 +
+      scale_color_manual(values = c(&quot;yellowgreen&quot;,&quot;plum3&quot;))
+
+p2 &lt;- p2 + 
+      stat_ellipse(type = &quot;norm&quot;,
+                   linetype = 2)
+
+ib_grob &lt;- grid.text(&quot;Stress:0.17&quot;)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Inner%20Bay-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>p2 &lt;- p2 + 
+      annotation_custom(grob = ib_grob,
+                        xmin=0.30,
+                        ymin=0.52)
+
+p2</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Inner%20Bay-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>(p1|p2)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Inner%20Bay-3.png" width="672" style="display: block; margin: auto;" /></p>
+<div id="statistical-test-1" class="section level5">
+<h5>Statistical test</h5>
+<p>Performing <em>Permanova</em> and <em>Betadisper</em> for identifying
+dispersion within groups</p>
+<pre class="r"><code>ib_df &lt;- as(sample_data(ib),&quot;data.frame&quot;)
+
+ib_groups_sampletype &lt;- ib_df$Sampletype
+
+#run betadisper for dispersion within groups significance
+betadisper_ib_sampletype &lt;- betadisper(ib_dist,
+                                       ib_groups_sampletype) 
+
+anova(betadisper_ib_sampletype) #not significant</code></pre>
+<pre><code>Analysis of Variance Table
+
+Response: Distances
+          Df  Sum Sq  Mean Sq F value   Pr(&gt;F)   
+Groups     1 0.06477 0.064770  11.132 0.001757 **
+Residuals 43 0.25019 0.005818                    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>ib_groups_month &lt;- ib_df$Month
+
+betadisper_ib_month &lt;- betadisper(ib_dist,ib_groups_month)
+
+anova(betadisper_ib_month)</code></pre>
+<pre><code>Analysis of Variance Table
+
+Response: Distances
+          Df  Sum Sq   Mean Sq F value Pr(&gt;F)
+Groups     5 0.03318 0.0066354  0.5732   0.72
+Residuals 39 0.45143 0.0115752               </code></pre>
+<pre class="r"><code>anova_ib &lt;- adonis2(ib_dist~Sampletype*Month,
+                    data = data.frame(sample_data(ib)), 
+                    permutations = 999)
+
+anova_ib</code></pre>
+<pre><code>Permutation test for adonis under reduced model
+Terms added sequentially (first to last)
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = ib_dist ~ Sampletype * Month, data = data.frame(sample_data(ib)), permutations = 999)
+                 Df SumOfSqs      R2      F Pr(&gt;F)    
+Sampletype        1   1.5297 0.14075 8.4041  0.001 ***
+Month             5   2.1121 0.19434 2.3208  0.001 ***
+Sampletype:Month  4   1.0376 0.09547 1.4251  0.040 *  
+Residual         34   6.1886 0.56943                  
+Total            44  10.8680 1.00000                  
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+</div>
+</div>
+</div>
+<div id="alpha-diversity-analysis" class="section level2">
+<h2>Alpha Diversity analysis</h2>
+<pre class="r"><code>healthy_sw &lt;- subset_samples(filtered_physeq,
+                             Type==&quot;SW&quot;)
+
+healthy_sw</code></pre>
+<pre><code>phyloseq-class experiment-level object
+otu_table()   OTU Table:         [ 1994 taxa and 12 samples ]
+sample_data() Sample Data:       [ 12 samples by 7 sample variables ]
+tax_table()   Taxonomy Table:    [ 1994 taxa by 7 taxonomic ranks ]</code></pre>
+<pre class="r"><code>merge_otu_table &lt;- merge_phyloseq(otu_table(healthy_coral),
+                                  otu_table(healthy_sw))
+
+merge_sample_data &lt;- merge_phyloseq(sample_data(healthy_coral),
+                                    sample_data(healthy_sw))
+
+merge_tax_table &lt;- merge_phyloseq(tax_table(healthy_coral),
+                                  tax_table(healthy_sw))
+
+coral_sw &lt;- phyloseq(merge_otu_table,
+                     merge_sample_data,
+                     merge_tax_table)
+
+sample_sum_df &lt;- data.frame(sum = sample_sums(coral_sw))
+
+ggplot(sample_sum_df, 
+       aes(x = sum)) + 
+  geom_histogram(color = &quot;black&quot;, 
+                 fill = &quot;indianred&quot;,
+                 binwidth = 2500) +
+  ggtitle(&quot;Distribution of sample sequencing depth&quot;) + 
+  xlab(&quot;Read counts&quot;) +
+  theme(axis.title.y = element_blank())</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/alpha%20diversity-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>smin &lt;- min(sample_sums(coral_sw))
+smin</code></pre>
+<pre><code>[1] 318.6596</code></pre>
+<pre class="r"><code>smean &lt;- mean(sample_sums(coral_sw))
+smax &lt;- max(sample_sums(coral_sw))
+smax</code></pre>
+<pre><code>[1] 3396.425</code></pre>
+<pre class="r"><code>min_lib &lt;- smin #5704 coral and seawater
+min_lib</code></pre>
+<pre><code>[1] 318.6596</code></pre>
+<pre class="r"><code>nsamp &lt;- nsamples(coral_sw)
+trials &lt;- 100
+
+richness &lt;- matrix(nrow = nsamp, 
+                   ncol = trials)
+
+row.names(richness) &lt;- sample_names(coral_sw)
+
+evenness &lt;- matrix(nrow = nsamp, 
+                   ncol = trials)
+
+row.names(evenness) &lt;- sample_names(coral_sw)
+
+shannon&lt;- matrix(nrow = nsamp, 
+                 ncol = trials)
+
+row.names(shannon) &lt;- sample_names(coral_sw)
+
+chao &lt;- matrix(nrow = nsamp, 
+               ncol = trials)
+
+row.names(chao) &lt;- sample_names(coral_sw)
+
+
+for (i in 1:100) {
+  # Subsample
+  r &lt;- rarefy_even_depth(coral_sw, 
+                         sample.size = min_lib, 
+                         verbose = FALSE, 
+                         replace = TRUE)
+  
+  # Calculate richness
+  rich &lt;- as.numeric(as.matrix(estimate_richness(r, measures = &quot;Observed&quot;)))
+  richness[ ,i] &lt;- rich
+  
+  # Calculate evenness
+  even &lt;- as.numeric(as.matrix(estimate_richness(r, measures = &quot;InvSimpson&quot;)))
+  evenness[ ,i] &lt;- even
+  
+  shan &lt;- as.numeric(as.matrix(estimate_richness(r, measures = &quot;Shannon&quot;)))
+  shannon[ ,i] &lt;- shan
+  
+  chaox &lt;- as.matrix(estimate_richness(r, measures = &quot;Chao1&quot;))
+  chao_1 &lt;- as.numeric(as.matrix(chaox[,1]))
+  chao[ ,i] &lt;- chao_1
+}
+
+Sample &lt;- row.names(richness)
+
+mean &lt;- apply(richness, 1, mean)
+
+sd &lt;- apply(richness, 1, sd)
+
+measure &lt;- rep(&quot;Richness&quot;, nsamp)
+
+rich_stats &lt;- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+
+# Create a new dataframe to hold the means and standard deviations of 
+# evenness estimates
+
+Sample &lt;- row.names(evenness)
+mean &lt;- apply(evenness, 1, mean)
+sd &lt;- apply(evenness, 1, sd)
+measure &lt;- rep(&quot;Inverse Simpson&quot;, nsamp)
+even_stats &lt;- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+Sample &lt;- row.names(shannon)
+mean &lt;- apply(shannon, 1, mean)
+sd &lt;- apply(shannon, 1, sd)
+measure &lt;- rep(&quot;Shannon&quot;, nsamp)
+shan_stats &lt;- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+Sample &lt;- row.names(chao)
+mean &lt;- apply(chao, 1, mean)
+sd &lt;- apply(chao, 1, sd)
+measure &lt;- rep(&quot;Chao1&quot;, nsamp)
+chao_stats &lt;- data.frame(Sample, 
+                         mean, 
+                         sd, 
+                         measure)
+
+
+write.csv(rich_stats, file = &quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/observed_richness_coral_sw.csv&quot;)
+write.csv(even_stats, file = &quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/even_InvSimpson_coral_sw.csv&quot;)
+write.csv(shan_stats, file = &quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/shannon_coral_sw.csv&quot;)
+write.csv(chao_stats, file = &quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/chao1_coral_sw.csv&quot;)</code></pre>
+</div>
+<div id="plots-of-alpha-diversity" class="section level2">
+<h2>Plots of alpha diversity</h2>
+<p>From the above saved files, its best to create a single file
+combining all the <br> alpha diversity matrices, see output of
+<em>head</em> command below</p>
+<pre class="r"><code>data&lt;-read.table(file = &quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/all alpha.txt&quot;,
+                 header=T,sep=&quot;\t&quot;)
+
+head(data)</code></pre>
+<pre><code>      X Sample Richness  Shannon     Chao1 InvSimpson Sampletype
+1 OB1_4  OB1_4    53.80 2.205042  64.62771   5.264820         OC
+2 OB2_4  OB2_4    57.82 2.632562  85.67908   8.173768         OC
+3 OB3_4  OB3_4    52.29 2.295596  65.60747   5.719572         OC
+4 OB4_4  OB4_4    48.45 2.339621  60.87280   6.378741         OC
+5 OB5_4  OB5_4    53.56 2.381255  70.47704   6.831402         OC
+6 IB1_4  IB1_4    94.91 1.581518 194.62131   3.478130         IC</code></pre>
+<pre class="r"><code>data_richness &lt;- data[,c(3,7)]
+data_shannon &lt;- data[,c(4,7)]
+data_chao &lt;- data[,c(5,7)]
+data_inv &lt;- data[,c(6,7)]
+
+
+data$Sampletype &lt;- factor(data$Sampletype, 
+                          levels = unique(data$Sampletype))
+
+p_richness &lt;- ggplot(data_richness,
+                     aes(Richness,Sampletype,color=Sampletype)) +
+  coord_flip()
+
+p_richness &lt;- p_richness +    
+  geom_boxplot(fill=c(&quot;yellowgreen&quot;,
+                      &quot;plum3&quot;,
+                      &quot;burlywood4&quot;,
+                      &quot;palevioletred&quot;,
+                      &quot;dodgerblue&quot;,
+                      &quot;midnightblue&quot;),
+               color=&quot;black&quot;) +
+  geom_jitter(size = 2,
+              alpha = 0.3,
+              color = &quot;gray35&quot;) + 
+  theme_cowplot() + 
+  theme(legend.position = &quot;none&quot;,
+        axis.title.x = element_blank())
+
+
+p_shannon &lt;- ggplot(data_shannon,
+                    aes(Shannon,Sampletype, color=Sampletype)) + 
+  coord_flip()
+
+p_shannon &lt;- p_shannon + 
+  geom_boxplot(fill = c(&quot;yellowgreen&quot;,
+                        &quot;plum3&quot;,
+                        &quot;burlywood4&quot;,
+                        &quot;palevioletred&quot;,
+                        &quot;dodgerblue&quot;,
+                        &quot;midnightblue&quot;),
+               color=&quot;black&quot;) +
+  geom_jitter(size=2,alpha=0.3,color=&quot;gray35&quot;) + 
+  coord_flip() + 
+  theme_cowplot() + 
+  theme(legend.position = &quot;none&quot;, 
+        axis.title.x = element_blank())</code></pre>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<pre class="r"><code>p_chao &lt;- ggplot(data_chao,
+                 aes(Chao1,Sampletype, color=Sampletype)) + 
+  coord_flip()
+
+p_chao &lt;- p_chao + 
+  geom_boxplot(fill = c(&quot;yellowgreen&quot;,
+                        &quot;plum3&quot;,
+                        &quot;burlywood4&quot;,
+                        &quot;palevioletred&quot;,
+                        &quot;dodgerblue&quot;,
+                        &quot;midnightblue&quot;),
+               color=&quot;black&quot;) + 
+  geom_jitter(size=2,
+              alpha=0.3,
+              color=&quot;gray35&quot;) +
+  coord_flip() + 
+  theme_cowplot() + 
+  theme(legend.position = &quot;none&quot;, 
+        axis.title.x = element_blank())</code></pre>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<pre class="r"><code>p_inv &lt;- ggplot(data_inv,
+                aes(InvSimpson,Sampletype, color=Sampletype)) +
+  coord_flip()
+
+p_inv &lt;- p_inv + 
+  geom_boxplot(fill = c(&quot;yellowgreen&quot;,
+                        &quot;plum3&quot;,
+                        &quot;burlywood4&quot;,
+                        &quot;palevioletred&quot;,
+                        &quot;dodgerblue&quot;,
+                        &quot;midnightblue&quot;
+  ),
+  color=&quot;black&quot;) +   
+  geom_jitter(size=2,
+              alpha=0.3,
+              color=&quot;gray35&quot;) +
+  coord_flip() + 
+  theme_cowplot() + 
+  theme(legend.position = &quot;none&quot;, 
+        axis.title.x = element_blank())</code></pre>
+<pre><code>Coordinate system already present. Adding new coordinate system, which will replace the existing one.</code></pre>
+<pre class="r"><code>((p_richness|p_shannon)/(p_chao|p_inv))</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/box%20plots-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="statistical-test-on-alpha-diversity" class="section level2">
+<h2>Statistical test on alpha diversity</h2>
+<div id="kruskal-wallis-test" class="section level3">
+<h3>Kruskal wallis test</h3>
+<pre class="r"><code>kruskal.test(Richness~Sampletype, 
+             data = data)</code></pre>
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  Richness by Sampletype
+Kruskal-Wallis chi-squared = 31.22, df = 5, p-value = 8.475e-06</code></pre>
+<pre class="r"><code>pairwise.wilcox.test(data$Richness, 
+                     data$Sampletype, 
+                     p.adjust.method = &quot;bonf&quot;)</code></pre>
+<pre><code>Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
+exact p-value with ties
+
+Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
+exact p-value with ties
+
+Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
+exact p-value with ties
+
+Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
+exact p-value with ties
+
+Warning in wilcox.test.default(xi, xj, paired = paired, ...): cannot compute
+exact p-value with ties</code></pre>
+<pre><code>
+    Pairwise comparisons using Wilcoxon rank sum test with continuity correction 
+
+data:  data$Richness and data$Sampletype 
+
+   OC     IC     IO     OI     SO    
+IC 0.2352 -      -      -      -     
+IO 1.0000 1.0000 -      -      -     
+OI 1.0000 1.0000 1.0000 -      -     
+SO 0.0055 0.0135 0.0037 0.0056 -     
+SI 0.0029 0.0012 0.0012 0.0089 1.0000
+
+P value adjustment method: bonferroni </code></pre>
+<pre class="r"><code>kruskal.test(Shannon~Sampletype,
+             data = data)</code></pre>
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  Shannon by Sampletype
+Kruskal-Wallis chi-squared = 34.06, df = 5, p-value = 2.316e-06</code></pre>
+<pre class="r"><code>pairwise.wilcox.test(data$Shannon, 
+                     data$Sampletype, 
+                     p.adjust.method = &quot;bonf&quot;)</code></pre>
+<pre><code>
+    Pairwise comparisons using Wilcoxon rank sum exact test 
+
+data:  data$Shannon and data$Sampletype 
+
+   OC      IC      IO      OI    SO   
+IC 1e+00   -       -       -     -    
+IO 1e+00   1e+00   -       -     -    
+OI 1e+00   1e+00   1e+00   -     -    
+SO 1.3e-05 2.7e-05 4.1e-05 3e-04 -    
+SI 1.3e-05 2.7e-05 4.1e-05 3e-04 1e+00
+
+P value adjustment method: bonferroni </code></pre>
+<pre class="r"><code>kruskal.test(Chao1~Sampletype, 
+             data = data) #significantly different(p=0.04364)</code></pre>
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  Chao1 by Sampletype
+Kruskal-Wallis chi-squared = 31.879, df = 5, p-value = 6.278e-06</code></pre>
+<pre class="r"><code>pairwise.wilcox.test(data$Chao1, 
+                     data$Sampletype, 
+                     p.adjust.method = &quot;bonf&quot;) #CIB vs COB adj p=0.031)</code></pre>
+<pre><code>
+    Pairwise comparisons using Wilcoxon rank sum exact test 
+
+data:  data$Chao1 and data$Sampletype 
+
+   OC      IC      IO      OI      SO     
+IC 0.10003 -       -       -       -      
+IO 1.00000 1.00000 -       -       -      
+OI 1.00000 1.00000 1.00000 -       -      
+SO 0.00161 0.01349 0.00367 0.00565 -      
+SI 0.00025 0.00119 0.00077 0.00892 1.00000
+
+P value adjustment method: bonferroni </code></pre>
+<pre class="r"><code>kruskal.test(InvSimpson~Sampletype,
+             data = data) #significantly different (p=0.03648)</code></pre>
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  InvSimpson by Sampletype
+Kruskal-Wallis chi-squared = 38.976, df = 5, p-value = 2.401e-07</code></pre>
+<pre class="r"><code>pairwise.wilcox.test(data$InvSimpson, 
+                     data$Sampletype, 
+                     p.adjust.method = &quot;bonf&quot;) #no significant difference</code></pre>
+<pre><code>
+    Pairwise comparisons using Wilcoxon rank sum exact test 
+
+data:  data$InvSimpson and data$Sampletype 
+
+   OC      IC      IO      OI     SO    
+IC 0.2232  -       -       -      -     
+IO 1.0000  0.1687  -       -      -     
+OI 1.0000  0.4931  1.0000  -      -     
+SO 1.3e-05 2.7e-05 4.1e-05 0.0003 -     
+SI 1.3e-05 2.7e-05 4.1e-05 0.0003 0.9740
+
+P value adjustment method: bonferroni </code></pre>
+<pre class="r"><code>head(data)</code></pre>
+<pre><code>      X Sample Richness  Shannon     Chao1 InvSimpson Sampletype
+1 OB1_4  OB1_4    53.80 2.205042  64.62771   5.264820         OC
+2 OB2_4  OB2_4    57.82 2.632562  85.67908   8.173768         OC
+3 OB3_4  OB3_4    52.29 2.295596  65.60747   5.719572         OC
+4 OB4_4  OB4_4    48.45 2.339621  60.87280   6.378741         OC
+5 OB5_4  OB5_4    53.56 2.381255  70.47704   6.831402         OC
+6 IB1_4  IB1_4    94.91 1.581518 194.62131   3.478130         IC</code></pre>
+<pre class="r"><code>new_data_for_inv_inset = data[1:100,]
+kruskal.test(InvSimpson~Sampletype,
+             data = new_data_for_inv_inset) #significantly different (p=0.03648)</code></pre>
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  InvSimpson by Sampletype
+Kruskal-Wallis chi-squared = 8.862, df = 3, p-value = 0.03118</code></pre>
+</div>
+<div id="anova-on-alpha-diversity" class="section level3">
+<h3>ANOVA on alpha diversity</h3>
+<pre class="r"><code>Richness_aov &lt;- aov(Richness~Sampletype,
+                    data = data_richness)
+summary(Richness_aov)</code></pre>
+<pre><code>             Df Sum Sq Mean Sq F value   Pr(&gt;F)    
+Sampletype    5 504469  100894   12.23 2.29e-09 ***
+Residuals   106 874405    8249                     
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>TukeyHSD(Richness_aov)</code></pre>
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Richness ~ Sampletype, data = data_richness)
+
+$Sampletype
+           diff        lwr       upr     p adj
+IO-IC -19.54468  -92.71393  53.62457 0.9711138
+OC-IC -43.57793 -112.97324  25.81737 0.4558069
+OI-IC -19.11148 -100.73190  62.50893 0.9838458
+SI-IC 202.64519   83.66401 321.62636 0.0000419
+SO-IC 174.90019   55.91901 293.88136 0.0006052
+OC-IO -24.03325  -94.89665  46.83015 0.9219795
+OI-IO   0.43320  -82.43902  83.30542 1.0000000
+SI-IO 222.18987  102.34649 342.03324 0.0000066
+SO-IO 194.44487   74.60149 314.28824 0.0001087
+OI-OC  24.46645  -55.09343 104.02633 0.9475180
+SI-OC 246.22312  128.64590 363.80034 0.0000003
+SO-OC 218.47812  100.90090 336.05534 0.0000062
+SI-OI 221.75667   96.57445 346.93888 0.0000183
+SO-OI 194.01167   68.82945 319.19388 0.0002499
+SO-SI -27.74500 -179.94624 124.45624 0.9948810</code></pre>
+<pre class="r"><code>Shannon_aov &lt;- aov(Shannon~Sampletype,
+                   data = data_shannon)
+summary(Shannon_aov)</code></pre>
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+Sampletype    5 106.44  21.288   65.71 &lt;2e-16 ***
+Residuals   106  34.34   0.324                   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>TukeyHSD(Shannon_aov)</code></pre>
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Shannon ~ Sampletype, data = data_shannon)
+
+$Sampletype
+               diff        lwr       upr     p adj
+IO-IC  0.2700390526 -0.1885180 0.7285961 0.5288196
+OC-IC  0.2693911867 -0.1655143 0.7042967 0.4715395
+OI-IC  0.3133621501 -0.1981590 0.8248833 0.4842000
+SI-IC  3.4493548560  2.7036910 4.1950187 0.0000000
+SO-IC  3.2113769295  2.4657131 3.9570408 0.0000000
+OC-IO -0.0006478659 -0.4447540 0.4434583 1.0000000
+OI-IO  0.0433230975 -0.4760433 0.5626894 0.9998834
+SI-IO  3.1793158034  2.4282485 3.9303831 0.0000000
+SO-IO  2.9413378769  2.1902706 3.6924052 0.0000000
+OI-OC  0.0439709634 -0.4546367 0.5425786 0.9998466
+SI-OC  3.1799636693  2.4430985 3.9168288 0.0000000
+SO-OC  2.9419857428  2.2051206 3.6788509 0.0000000
+SI-OI  3.1359927059  2.3514665 3.9205189 0.0000000
+SO-OI  2.8980147794  2.1134886 3.6825410 0.0000000
+SO-SI -0.2379779265 -1.1918343 0.7158785 0.9785743</code></pre>
+<pre class="r"><code>Chao1_aov &lt;- aov(Chao1~Sampletype,
+                 data = data_chao)
+summary(Chao1_aov)</code></pre>
+<pre><code>             Df  Sum Sq Mean Sq F value   Pr(&gt;F)    
+Sampletype    5 1104053  220811   13.73 2.47e-10 ***
+Residuals   106 1704227   16078                     
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>TukeyHSD(Chao1_aov)</code></pre>
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = Chao1 ~ Sampletype, data = data_chao)
+
+$Sampletype
+            diff        lwr       upr     p adj
+IO-IC -38.622207 -140.77163  63.52722 0.8813993
+OC-IC -69.262976 -166.14371  27.61776 0.3082618
+OI-IC -35.386803 -149.33466  78.56105 0.9453513
+SI-IC 280.862627  114.75651 446.96874 0.0000486
+SO-IC 266.182465  100.07635 432.28858 0.0001371
+OC-IO -30.640769 -129.57107  68.28953 0.9459519
+OI-IO   3.235403 -112.46006 118.93087 0.9999995
+SI-IO 319.484833  152.17504 486.79463 0.0000032
+SO-IO 304.804671  137.49487 472.11447 0.0000098
+OI-OC  33.876173  -77.19503 144.94737 0.9492810
+SI-OC 350.125603  185.97951 514.27169 0.0000002
+SO-OC 335.445441  171.29935 499.59153 0.0000006
+SI-OI 316.249430  141.48623 491.01263 0.0000114
+SO-OI 301.569268  126.80607 476.33247 0.0000320
+SO-SI -14.680162 -227.16382 197.80349 0.9999541</code></pre>
+<pre class="r"><code>InvSimpson_aov &lt;- aov(InvSimpson~Sampletype,
+                      data = data_inv)
+summary(InvSimpson_aov)</code></pre>
+<pre><code>             Df Sum Sq Mean Sq F value Pr(&gt;F)    
+Sampletype    5 320041   64008   108.9 &lt;2e-16 ***
+Residuals   106  62299     588                   
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre class="r"><code>TukeyHSD(InvSimpson_aov)</code></pre>
+<pre><code>  Tukey multiple comparisons of means
+    95% family-wise confidence level
+
+Fit: aov(formula = InvSimpson ~ Sampletype, data = data_inv)
+
+$Sampletype
+             diff       lwr        upr     p adj
+IO-IC   1.7227181 -17.80772  21.253156 0.9998465
+OC-IC   1.4715638 -17.05153  19.994655 0.9999083
+OI-IC   1.8504742 -19.93576  23.636710 0.9998725
+SI-IC 196.9084399 165.14982 228.667063 0.0000000
+SO-IC 147.0794776 115.32085 178.838101 0.0000000
+OC-IO  -0.2511543 -19.16611  18.663803 1.0000000
+OI-IO   0.1277561 -21.99261  22.248126 1.0000000
+SI-IO 195.1857218 163.19696 227.174483 0.0000000
+SO-IO 145.3567595 113.36800 177.345521 0.0000000
+OI-OC   0.3789104 -20.85732  21.615145 0.9999999
+SI-OC 195.4368761 164.05300 226.820753 0.0000000
+SO-OC 145.6079138 114.22404 176.991791 0.0000000
+SI-OI 195.0579658 161.64415 228.471778 0.0000000
+SO-OI 145.2290035 111.81519 178.642816 0.0000000
+SO-SI -49.8289623 -90.45473  -9.203195 0.0071755</code></pre>
+<p>##Bacterial Class level</p>
+<pre class="r"><code>data &lt;- read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/All_class_only.txt&quot;,
+                   header = T,
+                   row.names = 1, 
+                   sep = &quot;\t&quot;)
+data_t &lt;- t(data)
+head(data_t)</code></pre>
+<pre><code>      Gammaproteobacteria Chlamydiae Mollicutes Alphaproteobacteria
+OB1_4                7722       4139         23                  50
+OB2_4               37262       1986         35                  63
+OB3_4               14152       6379          0                  78
+OB4_4               29812       7743          4                  91
+OB5_4               22734       5654          1                 101
+IB1_4               63198        123       2620                 722
+      Cyanobacteria Flavobacteriia Verrucomicrobiae Deltaproteobacteria
+OB1_4             1             10                0                   0
+OB2_4             6              6               23                   2
+OB3_4             2              3                2                   0
+OB4_4             3              5                0                   1
+OB5_4             2              7               14                   0
+IB1_4           174            125               60                   6
+      Acidimicrobiia Holophagae Planctomycetacia OM190
+OB1_4              0          0                0     0
+OB2_4              0          0                0     0
+OB3_4              0          0                0     0
+OB4_4              0          0                1     0
+OB5_4              0          0                2     1
+IB1_4              5          1               10     2
+      Marinimicrobia (SAR406 clade) Lentisphaeria Bacteroidetes (unclassified)
+OB1_4                             0             0                           13
+OB2_4                             0             1                            2
+OB3_4                             0             2                           13
+OB4_4                             0             0                           14
+OB5_4                             0             1                           18
+IB1_4                             8             1                           36
+      Cytophagia Proteobacteria Incertae Sedis Bacilli Bacteria (unclassified)
+OB1_4          0                             0       0                       2
+OB2_4          0                             0       0                       7
+OB3_4          0                             0       0                       0
+OB4_4          0                             0       0                       0
+OB5_4          0                             0       0                       0
+IB1_4          0                             0       0                      30
+      Other (Bacteria)
+OB1_4                0
+OB2_4                5
+OB3_4                0
+OB4_4                0
+OB5_4                1
+IB1_4               42</code></pre>
+<pre class="r"><code>rel_abundance &lt;- (data_t/rowSums(data_t))*100
+head(rel_abundance)</code></pre>
+<pre><code>      Gammaproteobacteria Chlamydiae  Mollicutes Alphaproteobacteria
+OB1_4            64.56522 34.6070234 0.192307692           0.4180602
+OB2_4            94.57840  5.0408650 0.088836997           0.1599066
+OB3_4            68.59580 30.9194901 0.000000000           0.3780718
+OB4_4            79.13150 20.5526358 0.010617402           0.2415459
+OB5_4            79.66779 19.8135688 0.003504345           0.3539389
+IB1_4            94.09645  0.1831365 3.900957372           1.0749966
+      Cyanobacteria Flavobacteriia Verrucomicrobiae Deltaproteobacteria
+OB1_4   0.008361204     0.08361204       0.00000000          0.00000000
+OB2_4   0.015229199     0.01522920       0.05837860          0.00507640
+OB3_4   0.009694150     0.01454122       0.00969415          0.00000000
+OB4_4   0.007963051     0.01327175       0.00000000          0.00265435
+OB5_4   0.007008691     0.02453042       0.04906084          0.00000000
+IB1_4   0.259071215     0.18611438       0.08933490          0.00893349
+      Acidimicrobiia  Holophagae Planctomycetacia       OM190
+OB1_4    0.000000000 0.000000000      0.000000000 0.000000000
+OB2_4    0.000000000 0.000000000      0.000000000 0.000000000
+OB3_4    0.000000000 0.000000000      0.000000000 0.000000000
+OB4_4    0.000000000 0.000000000      0.002654350 0.000000000
+OB5_4    0.000000000 0.000000000      0.007008691 0.003504345
+IB1_4    0.007444575 0.001488915      0.014889150 0.002977830
+      Marinimicrobia (SAR406 clade) Lentisphaeria Bacteroidetes (unclassified)
+OB1_4                    0.00000000   0.000000000                   0.10869565
+OB2_4                    0.00000000   0.002538200                   0.00507640
+OB3_4                    0.00000000   0.009694150                   0.06301197
+OB4_4                    0.00000000   0.000000000                   0.03716091
+OB5_4                    0.00000000   0.003504345                   0.06307822
+IB1_4                    0.01191132   0.001488915                   0.05360094
+      Cytophagia Proteobacteria Incertae Sedis Bacilli Bacteria (unclassified)
+OB1_4          0                             0       0              0.01672241
+OB2_4          0                             0       0              0.01776740
+OB3_4          0                             0       0              0.00000000
+OB4_4          0                             0       0              0.00000000
+OB5_4          0                             0       0              0.00000000
+IB1_4          0                             0       0              0.04466745
+      Other (Bacteria)
+OB1_4      0.000000000
+OB2_4      0.012691000
+OB3_4      0.000000000
+OB4_4      0.000000000
+OB5_4      0.003504345
+IB1_4      0.062534431</code></pre>
+<pre class="r"><code>rel_abundance &lt;- t(rel_abundance)
+
+
+df_cob_april &lt;- melt(t(rel_abundance[,1:5]))
+df_cib_april &lt;- melt(t(rel_abundance[,6:10]))
+
+df_cob_may &lt;- melt(t(rel_abundance[,11:15]))
+df_i2o_may &lt;- melt(t(rel_abundance[,16:20]))
+df_cib_may &lt;- melt(t(rel_abundance[,21:25]))
+df_o2i_may &lt;- melt(t(rel_abundance[,26:30]))
+
+df_cob_june &lt;- melt(t(rel_abundance[,31:35]))
+df_i2o_june &lt;- melt(t(rel_abundance[,36:40]))
+df_cib_june &lt;- melt(t(rel_abundance[,41:45]))
+df_o2i_june &lt;- melt(t(rel_abundance[,46:50]))
+df_cob_july &lt;- melt(t(rel_abundance[,51:55]))
+df_i2o_july &lt;- melt(t(rel_abundance[,56:60]))
+df_cib_july &lt;- melt(t(rel_abundance[,61:65]))
+df_o2i_july &lt;- melt(t(rel_abundance[,66:70]))
+df_cob_august &lt;- melt(t(rel_abundance[,71:75]))
+df_i2o_august &lt;- melt(t(rel_abundance[,76:80]))
+df_cib_august &lt;- melt(t(rel_abundance[,81:85]))
+df_o2i_august &lt;- melt(t(rel_abundance[,86:90]))
+df_cob_dec &lt;- melt(t(rel_abundance[,91:95]))
+df_i2o_dec &lt;- melt(t(rel_abundance[,96:100]))
+df_cib_dec &lt;- melt(t(rel_abundance[,101:105]))
+df_o2i_dec &lt;- melt(t(rel_abundance[,106:110]))
+
+sw_april &lt;- melt(t(rel_abundance[,111:112]))
+sw_may &lt;- melt(t(rel_abundance[,113:114]))            
+sw_june &lt;- melt(t(rel_abundance[,115:116])) 
+sw_july &lt;- melt(t(rel_abundance[,117:118])) 
+sw_august &lt;- melt(t(rel_abundance[,119:120])) 
+sw_december &lt;- melt(t(rel_abundance[,121:122])) 
+
+Colors_gene_class_bottom = c(&quot;#b1c2fc&quot;,&quot;#D18F52&quot;,&quot;#e79158&quot;,&quot;#42b3c2&quot;,
+                             &quot;#4dc4ff&quot;,&quot;#5892c7&quot;,&quot;#ff4365&quot;,&quot;#f99888&quot;,
+                             &quot;#cc1818&quot;,&quot;#a5e075&quot;,&quot;#8CC265&quot;,&quot;#d9eab8&quot;,
+                             &quot;#791e94&quot;,&quot;#540d6e&quot;,&quot;#6600cc&quot;,&quot;#1bc301&quot;,
+                             &quot;#464446&quot;,&quot;#b2ccdb&quot;) 
+
+
+colnames(df_cob_april) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_cib_april) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_cob_may) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_cib_may) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_may) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_may) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_june) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_cib_june) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_june) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_june) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_july) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_cib_july) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_july) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_july) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_august) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_cib_august) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_august) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_august) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+
+colnames(df_cob_dec) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_cib_dec) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_i2o_dec) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(df_o2i_dec) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+
+colnames(sw_april) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(sw_may) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(sw_june) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(sw_july) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(sw_august) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+colnames(sw_december) &lt;- c(&quot;Sample&quot;,&quot;Class&quot;,&quot;Abundance&quot;)
+
+
+p1_april &lt;- ggplot(df_cob_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = Class)) +  
+            geom_bar(stat = &quot;identity&quot;, 
+                     show.legend = FALSE) + 
+            theme_cowplot() + 
+            theme(axis.title.x = element_blank(),
+                  axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+                  axis.ticks = element_blank(), 
+                  axis.text = element_blank(), 
+                  axis.line = element_line(color = &quot;white&quot;)) +  
+            scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                         &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+            guides(fill = guide_legend(ncol = 1)) + 
+            labs(y = &quot;April&quot;)
+
+p1_april2 &lt;- ggplot(df_cob_april,
+                    aes(x = Sample,
+                        y = Abundance,
+                        fill = &quot;white&quot;)) +  
+             geom_bar(stat = &quot;identity&quot;, 
+                      show.legend = FALSE,
+                      fill = &quot;white&quot;) + 
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = &quot;white&quot;)) + 
+             guides(fill = guide_legend(ncol = 1))
+
+
+p2_april &lt;- ggplot(df_cib_april,aes(x = Sample,
+                                    y = Abundance,
+                                    fill = Class)) +  
+            geom_bar(stat = &quot;identity&quot;, 
+                     show.legend  = FALSE) +  
+            theme_cowplot() + 
+            theme(axis.title  = element_blank(), 
+                  axis.ticks = element_blank(), 
+                  axis.text = element_blank(), 
+                  axis.line = element_line(color = &quot;white&quot;)) +  
+            scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                         &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+            guides(fill = guide_legend(ncol = 1))
+
+p2_april2 &lt;- ggplot(df_cib_april,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = &quot;white&quot;)) + 
+             geom_bar(stat = &quot;identity&quot;, 
+                      show.legend = FALSE,
+                      fill = &quot;white&quot;) + 
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = &quot;white&quot;)) + 
+             guides(fill = guide_legend(ncol = 1))
+
+
+p1_may &lt;- ggplot(df_cob_may,
+                 aes(x = Sample,
+                     y = Abundance,
+                     fill = Class)) + 
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title.x = element_blank(),
+                axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+          guides(fill = guide_legend(ncol = 1)) + 
+          labs(y = &quot;May&quot;)
+
+p2_may &lt;- ggplot(df_i2o_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = &quot;white&quot;)) + 
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend = FALSE,
+                   fill = &quot;white&quot;) + 
+          theme_cowplot() +  
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p3_may &lt;- ggplot(df_cib_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title  = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p4_may &lt;- ggplot(df_o2i_may,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+          guides(fill = guide_legend(ncol = 1))
+
+
+p1_june &lt;- ggplot(df_cob_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;, 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title.x = element_blank(),
+                 axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = &quot;white&quot;)) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1)) +  
+           labs(y = &quot;June&quot;)
+
+p2_june &lt;- ggplot(df_i2o_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;, 
+                    show.legend =  FALSE) + 
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = &quot;white&quot;)) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p3_june &lt;- ggplot(df_cib_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;, 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = &quot;white&quot;)) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p4_june &lt;- ggplot(df_o2i_june,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;,
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line  = element_line(color = &quot;white&quot;)) +  
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p1_july &lt;- ggplot(df_cob_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;, 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title.x = element_blank(),
+                 axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = &quot;white&quot;)) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1)) +  
+           labs(y = &quot;July&quot;)
+
+p2_july &lt;- ggplot(df_i2o_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;, 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text  = element_blank(), 
+                 axis.line  = element_line(color = &quot;white&quot;)) +  
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p3_july &lt;- ggplot(df_cib_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;, 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(),
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = &quot;white&quot;)) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p4_july &lt;- ggplot(df_o2i_july,aes(x = Sample,
+                                  y = Abundance,
+                                  fill = Class)) +  
+           geom_bar(stat = &quot;identity&quot;, 
+                    show.legend = FALSE) +  
+           theme_cowplot() +  
+           theme(axis.title = element_blank(), 
+                 axis.ticks = element_blank(), 
+                 axis.text = element_blank(), 
+                 axis.line = element_line(color = &quot;white&quot;)) + 
+           scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                        &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+           guides(fill = guide_legend(ncol = 1))
+
+p1_august &lt;- ggplot(df_cob_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = &quot;identity&quot;, 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title.x = element_blank(),
+                   axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = &quot;white&quot;)) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+             guides(fill = guide_legend(ncol = 1)) +  
+             labs(y = &quot;August&quot;)
+
+p2_august &lt;- ggplot(df_i2o_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = &quot;identity&quot;, 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = &quot;white&quot;)) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+             guides(fill = guide_legend(ncol = 1))
+
+p3_august &lt;- ggplot(df_cib_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = &quot;identity&quot;, 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = &quot;white&quot;)) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+             guides(fill = guide_legend(ncol = 1))
+
+p4_august &lt;- ggplot(df_o2i_august,aes(x = Sample,
+                                      y = Abundance,
+                                      fill = Class)) +  
+             geom_bar(stat = &quot;identity&quot;, 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = &quot;white&quot;)) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+             guides(fill = guide_legend(ncol = 1))
+
+
+p1_dec &lt;- ggplot(df_cob_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend  = FALSE) +  
+          theme_cowplot() + 
+          theme(axis.title.x = element_blank(),
+                axis.title.y = element_text(size = 9,face = &quot;bold&quot;), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+          guides(fill = guide_legend(ncol = 1)) + 
+          labs(y = &quot;December&quot;)
+
+p2_dec &lt;- ggplot(df_i2o_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p3_dec &lt;- ggplot(df_cib_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+          guides(fill = guide_legend(ncol = 1))
+
+p4_dec &lt;- ggplot(df_o2i_dec,aes(x = Sample,
+                                y = Abundance,
+                                fill = Class)) +  
+          geom_bar(stat = &quot;identity&quot;, 
+                   show.legend = FALSE) + 
+          theme_cowplot() + 
+          theme(axis.title  = element_blank(), 
+                axis.ticks = element_blank(), 
+                axis.text = element_blank(), 
+                axis.line = element_line(color = &quot;white&quot;)) +  
+          scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                       &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+          guides(fill = guide_legend(ncol = 1))
+
+
+
+p1_sw_april &lt;- ggplot(sw_april,aes(x = Sample,
+                                   y = Abundance,
+                                   fill = Class)) + 
+               geom_bar(stat = &quot;identity&quot;, 
+                        show.legend = FALSE) +  
+               theme_cowplot() +  
+               theme(axis.title = element_blank(), 
+                     axis.ticks = element_blank(), 
+                     axis.text = element_blank(), 
+                     axis.line = element_line(color = &quot;white&quot;)) + 
+               scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                            &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+               guides(fill = guide_legend(ncol = 1))
+
+p1_sw_may &lt;- ggplot(sw_may,aes(x = Sample,
+                               y = Abundance,
+                               fill = Class)) + 
+             geom_bar(stat = &quot;identity&quot;, 
+                      show.legend = FALSE) +  
+             theme_cowplot() +  
+             theme(axis.title = element_blank(), 
+                   axis.ticks = element_blank(), 
+                   axis.text = element_blank(), 
+                   axis.line = element_line(color = &quot;white&quot;)) + 
+             scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                          &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+             guides(fill = guide_legend(ncol = 1))
+
+p1_sw_june &lt;- ggplot(sw_june,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = Class)) + 
+              geom_bar(stat = &quot;identity&quot;, 
+                       show.legend = FALSE) + 
+              theme_cowplot() + 
+              theme(axis.title = element_blank(), 
+                    axis.ticks = element_blank(), 
+                    axis.text = element_blank(), 
+                    axis.line = element_line(color = &quot;white&quot;)) +  
+              scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                           &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+              guides(fill = guide_legend(ncol = 1))
+
+p1_sw_july &lt;- ggplot(sw_july,aes(x = Sample,
+                                 y = Abundance,
+                                 fill = Class)) + 
+              geom_bar(stat = &quot;identity&quot;, 
+                       show.legend = TRUE) +  
+              theme_cowplot() + 
+              theme(legend.title = element_text(size = 8),
+                    legend.text = element_text(size = 8),
+                    axis.title = element_blank(), 
+                    axis.ticks = element_blank(), 
+                    axis.text = element_blank(), 
+                    axis.line = element_line(color = &quot;white&quot;)) +  
+              scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                           &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+              guides(fill = guide_legend(ncol = 1))
+
+p1_sw_august &lt;- ggplot(sw_august,aes(x = Sample,
+                                     y = Abundance,
+                                     fill = Class)) + 
+                geom_bar(stat = &quot;identity&quot;, 
+                         show.legend = FALSE) + 
+                theme_cowplot() + 
+                theme(axis.title =  element_blank(), 
+                      axis.ticks = element_blank(), 
+                      axis.text = element_blank(), 
+                      axis.line = element_line(color = &quot;white&quot;)) +  
+                scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                             &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) + 
+                guides(fill = guide_legend(ncol = 1))
+
+p1_sw_december &lt;- ggplot(sw_december,aes(x = Sample,
+                                         y = Abundance,
+                                         fill = Class)) + 
+                geom_bar(stat = &quot;identity&quot;, 
+                           show.legend = FALSE) + 
+                theme_cowplot() + 
+                theme(axis.title = element_blank(), 
+                        axis.ticks = element_blank(), 
+                        axis.text = element_blank(), 
+                        axis.line = element_line(color = &quot;white&quot;)) +  
+                scale_fill_manual(values = c(Colors_gene_class_bottom,
+                                            &quot;lightgoldenrod&quot;,&quot;grey&quot;,&quot;grey87&quot;)) +  
+                guides(fill = guide_legend(ncol = 1))
+
+(p1_april|p1_april2|p2_april|p2_april2|p1_sw_april)/(p1_may|p2_may|p3_may|p4_may|p1_sw_may)/(p1_june|p2_june|p3_june|p4_june|p1_sw_june)/(p1_july|p2_july|p3_july|p4_july|p1_sw_july)/(p1_august|p2_august|p3_august|p4_august|p1_sw_august)/(p1_dec|p2_dec|p3_dec|p4_dec|p1_sw_december)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/Class%20level-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>##ANI heatmap</p>
+<pre class="r"><code>data = read.table(&quot;/Users/kshitijtandon/Desktop/kshitij/Sinica work/Penghunesis Manuscript/Endozoicomonas-species-dynamics/data/ANI_results.txt&quot;,row.names = 1)
+
+pheatmap(as.matrix(data*100),show_rownames = F,fontsize = 8,display_numbers = T,color  = viridis(n = 100,direction = -1,option = &quot;B&quot;,begin = 0.8),cluster_cols = T,cluster_rows = T,fontsize_number = 10,border_color = &quot;black&quot;,number_col = &quot;black&quot;)</code></pre>
+<p><img src="figure/Microbiome_restructuring_data_analysis.Rmd/ANI%20heatmap-1.png" width="672" style="display: block; margin: auto;" /></p>
+<br>
+<p>
+<button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
+<span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+Session information
+</button>
+</p>
+<div id="workflowr-sessioninfo" class="collapse">
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>R version 4.2.1 (2022-06-23)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Big Sur ... 10.16
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_AU.UTF-8/en_AU.UTF-8/en_AU.UTF-8/C/en_AU.UTF-8/en_AU.UTF-8
+
+attached base packages:
+[1] grid      stats     graphics  grDevices utils     datasets  methods  
+[8] base     
+
+other attached packages:
+ [1] pheatmap_1.0.12        gplots_3.1.3           viridis_0.6.2         
+ [4] viridisLite_0.4.1      wesanderson_0.3.6      reshape2_1.4.4        
+ [7] microbiomeMarker_1.3.2 cowplot_1.1.1          compositions_2.0-4    
+[10] patchwork_1.1.2        vegan_2.6-2            lattice_0.20-45       
+[13] permute_0.9-7          ggplot2_3.3.6          RColorBrewer_1.1-3    
+[16] phyloseq_1.40.0        workflowr_1.7.0       
+
+loaded via a namespace (and not attached):
+  [1] utf8_1.2.2                  tidyselect_1.1.2           
+  [3] RSQLite_2.2.17              AnnotationDbi_1.58.0       
+  [5] htmlwidgets_1.5.4           BiocParallel_1.30.3        
+  [7] Rtsne_0.16                  munsell_0.5.0              
+  [9] codetools_0.2-18            interp_1.1-3               
+ [11] withr_2.5.0                 colorspace_2.0-3           
+ [13] Biobase_2.56.0              energy_1.7-10              
+ [15] highr_0.9                   knitr_1.40                 
+ [17] rstudioapi_0.14             stats4_4.2.1               
+ [19] DescTools_0.99.46           robustbase_0.95-0          
+ [21] bayesm_3.1-4                labeling_0.4.2             
+ [23] MatrixGenerics_1.8.1        Rdpack_2.4                 
+ [25] git2r_0.30.1                GenomeInfoDbData_1.2.8     
+ [27] plotROC_2.3.0               farver_2.1.1               
+ [29] bit64_4.0.5                 rhdf5_2.40.0               
+ [31] rprojroot_2.0.3             treeio_1.20.2              
+ [33] vctrs_0.4.1                 generics_0.1.3             
+ [35] xfun_0.33                   R6_2.5.1                   
+ [37] doParallel_1.0.17           GenomeInfoDb_1.32.4        
+ [39] clue_0.3-61                 locfit_1.5-9.6             
+ [41] gridGraphics_0.5-1          bitops_1.0-7               
+ [43] rhdf5filters_1.8.0          microbiome_1.18.0          
+ [45] cachem_1.0.6                DelayedArray_0.22.0        
+ [47] assertthat_0.2.1            promises_1.2.0.1           
+ [49] scales_1.2.1                nnet_7.3-17                
+ [51] rootSolve_1.8.2.3           gtable_0.3.1               
+ [53] processx_3.7.0              lmom_2.9                   
+ [55] rlang_1.0.6                 genefilter_1.78.0          
+ [57] GlobalOptions_0.1.2         splines_4.2.1              
+ [59] lazyeval_0.2.2              checkmate_2.1.0            
+ [61] yaml_2.3.5                  backports_1.4.1            
+ [63] httpuv_1.6.6                Hmisc_4.7-1                
+ [65] tensorA_0.36.2              tools_4.2.1                
+ [67] ggplotify_0.1.0             jquerylib_0.1.4            
+ [69] biomformat_1.24.0           proxy_0.4-27               
+ [71] BiocGenerics_0.42.0         Rcpp_1.0.9                 
+ [73] plyr_1.8.7                  base64enc_0.1-3            
+ [75] zlibbioc_1.42.0             purrr_0.3.4                
+ [77] RCurl_1.98-1.8              ps_1.7.1                   
+ [79] Wrench_1.14.0               rpart_4.1.16               
+ [81] deldir_1.0-6                GetoptLong_1.0.5           
+ [83] S4Vectors_0.34.0            SummarizedExperiment_1.26.1
+ [85] cluster_2.1.4               fs_1.5.2                   
+ [87] magrittr_2.0.3              data.table_1.14.2          
+ [89] circlize_0.4.15             mvtnorm_1.1-3              
+ [91] whisker_0.4                 matrixStats_0.62.0         
+ [93] gsl_2.1-7.1                 evaluate_0.16              
+ [95] xtable_1.8-4                XML_3.99-0.10              
+ [97] jpeg_0.1-9                  readxl_1.4.1               
+ [99] IRanges_2.30.1              gridExtra_2.3              
+[101] shape_1.4.6                 compiler_4.2.1             
+[103] tibble_3.1.8                KernSmooth_2.23-20         
+[105] crayon_1.5.1                htmltools_0.5.3            
+[107] ggfun_0.0.7                 mgcv_1.8-40                
+[109] later_1.3.0                 Formula_1.2-4              
+[111] aplot_0.1.7                 tidyr_1.2.1                
+[113] geneplotter_1.74.0          expm_0.999-6               
+[115] ANCOMBC_1.6.2               Exact_3.2                  
+[117] DBI_1.1.3                   ComplexHeatmap_2.12.1      
+[119] MASS_7.3-58.1               boot_1.3-28                
+[121] Matrix_1.5-1                ade4_1.7-19                
+[123] cli_3.4.1                   rbibutils_2.2.9            
+[125] parallel_4.2.1              igraph_1.3.5               
+[127] GenomicRanges_1.48.0        pkgconfig_2.0.3            
+[129] getPass_0.2-2               foreign_0.8-82             
+[131] foreach_1.5.2               ggtree_3.4.4               
+[133] annotate_1.74.0             bslib_0.4.0                
+[135] rngtools_1.5.2              multtest_2.52.0            
+[137] XVector_0.36.0              yulab.utils_0.0.5          
+[139] doRNG_1.8.2                 stringr_1.4.1              
+[141] callr_3.7.2                 digest_0.6.29              
+[143] Biostrings_2.64.1           rmarkdown_2.16             
+[145] cellranger_1.1.0            tidytree_0.4.1             
+[147] htmlTable_2.4.1             gld_2.6.5                  
+[149] gtools_3.9.3                rjson_0.2.21               
+[151] nloptr_2.0.3                lifecycle_1.0.2            
+[153] nlme_3.1-159                jsonlite_1.8.0             
+[155] Rhdf5lib_1.18.2             limma_3.52.4               
+[157] fansi_1.0.3                 pillar_1.8.1               
+[159] KEGGREST_1.36.3             fastmap_1.1.0              
+[161] httr_1.4.4                  DEoptimR_1.0-11            
+[163] survival_3.4-0              glue_1.6.2                 
+[165] png_0.1-7                   iterators_1.0.14           
+[167] glmnet_4.1-4                bit_4.0.4                  
+[169] metagenomeSeq_1.38.0        class_7.3-20               
+[171] stringi_1.7.8               sass_0.4.2                 
+[173] blob_1.2.3                  DESeq2_1.36.0              
+[175] caTools_1.18.2              latticeExtra_0.6-30        
+[177] memoise_2.0.1               dplyr_1.0.10               
+[179] e1071_1.7-11                ape_5.6-2                  </code></pre>
+</div>
+</div>
+</div>
+
+
+<!-- Adjust MathJax settings so that all math formulae are shown using
+TeX fonts only; see
+https://docs.mathjax.org/en/latest/web/configuration.html. This will make
+the presentation more consistent at the cost of the webpage sometimes
+taking slightly longer to load. Note that this only works because the
+footer is added to webpages before the MathJax javascript. -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
