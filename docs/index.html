@@ -288,7 +288,7 @@ $(document).ready(function () {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -299,8 +299,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -313,9 +313,9 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 2
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 1
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong>
@@ -339,33 +339,36 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkshitijtandonEndozoicomonasspeciesdynamicstreeeea6ea93f33e725559d2b39628ae402c53cc8b81targetblankeea6ea9a">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkshitijtandonEndozoicomonasspeciesdynamicstreef68443ad2aa2a09793b67462549168731f0289f6targetblankf68443aa">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/kshitijtandon/Endozoicomonas-species-dynamics/tree/eea6ea93f33e725559d2b39628ae402c53cc8b81" target="_blank">eea6ea9</a>
+<a href="https://github.com/kshitijtandon/Endozoicomonas-species-dynamics/tree/f68443ad2aa2a09793b67462549168731f0289f6" target="_blank">f68443a</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomkshitijtandonEndozoicomonasspeciesdynamicstreeeea6ea93f33e725559d2b39628ae402c53cc8b81targetblankeea6ea9a"
+id="strongRepositoryversionstrongahrefhttpsgithubcomkshitijtandonEndozoicomonasspeciesdynamicstreef68443ad2aa2a09793b67462549168731f0289f6targetblankf68443aa"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -375,7 +378,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/kshitijtandon/Endozoicomonas-species-dynamics/tree/eea6ea93f33e725559d2b39628ae402c53cc8b81" target="_blank">eea6ea9</a>.
+<a href="https://github.com/kshitijtandon/Endozoicomonas-species-dynamics/tree/f68443ad2aa2a09793b67462549168731f0289f6" target="_blank">f68443a</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -389,87 +392,11 @@ depends on. Below is the status of the Git repository when the results
 were generated:
 </p>
 <pre><code>
-Untracked files:
-    Untracked:  .Rprofile
-    Untracked:  .gitattributes
-    Untracked:  .gitignore
-    Untracked:  Endozoicomonas-species-dynamics.Rproj
-    Untracked:  R/
-    Untracked:  _workflowr.yml
-    Untracked:  analysis/
-    Untracked:  public/
+Ignored files:
+    Ignored:    analysis/.DS_Store
 
 Unstaged changes:
-    Modified:   .DS_Store
-    Deleted:    Endozoicomonas-species-dynamics/docs/.nojekyll
-    Deleted:    Endozoicomonas-species-dynamics/docs/about.html
-    Deleted:    Endozoicomonas-species-dynamics/docs/index.html
-    Deleted:    Endozoicomonas-species-dynamics/docs/license.html
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.css.map
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap-theme.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap.css.map
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/bootstrap.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/cerulean.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/cosmo.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/darkly.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/flatly.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Lato.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoBold.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/LatoItalic.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycle.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/NewsCycleBold.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSans.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBold.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansBoldItalic.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansItalic.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLight.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/OpenSansLightItalic.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Raleway.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RalewayBold.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Roboto.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoBold.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoLight.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/RobotoMedium.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansPro.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProBold.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProItalic.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/SourceSansProLight.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/fonts/Ubuntu.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/journal.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/lumen.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/paper.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/readable.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/sandstone.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/simplex.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/spacelab.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/united.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/css/yeti.min.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.eot
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.svg
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.ttf
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/fonts/glyphicons-halflings-regular.woff2
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/js/bootstrap.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/js/bootstrap.min.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/js/npm.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/shim/html5shiv.min.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/bootstrap-3.3.5/shim/respond.min.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/header-attrs-2.16/header-attrs.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/highlightjs-9.12.0/default.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/highlightjs-9.12.0/highlight.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/highlightjs-9.12.0/textmate.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/jquery-3.6.0/jquery-3.6.0.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/jquery-3.6.0/jquery-3.6.0.min.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/jquery-3.6.0/jquery-3.6.0.min.map
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/codefolding-lua.css
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/codefolding.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/sourceembed.js
-    Deleted:    Endozoicomonas-species-dynamics/docs/site_libs/navigation-1.1/tabsets.js
-    Deleted:    Microbiome_restructuring_data_analysis.Rmd
-    Deleted:    Microbiome_restructuring_data_analysis.html
-    Deleted:    script/analysis_complete.R
+    Modified:   analysis/index.Rmd
 
 </code></pre>
 <p>
@@ -484,15 +411,81 @@ have uncommitted changes.
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with
-<code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the repository in which changes were
+made to the R Markdown (<code>analysis/index.Rmd</code>) and HTML
+(<code>docs/index.html</code>) files. If you’ve configured a remote Git
+repository (see <code>?wflow_git_remote</code>), click on the hyperlinks
+in the table below to view the files as they were in that past version.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/kshitijtandon/Endozoicomonas-species-dynamics/blob/f68443ad2aa2a09793b67462549168731f0289f6/analysis/index.Rmd" target="_blank">f68443a</a>
+</td>
+<td>
+Kshitij Tandon
+</td>
+<td>
+2022-10-13
+</td>
+<td>
+update Rmd
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/kshitijtandon/Endozoicomonas-species-dynamics/f68443ad2aa2a09793b67462549168731f0289f6/docs/index.html" target="_blank">f68443a</a>
+</td>
+<td>
+Kshitij Tandon
+</td>
+<td>
+2022-10-13
+</td>
+<td>
+update Rmd
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
 </div>
-<p>Welcome to my research website.</p>
+<p>Refer to the site below for details of the project and analysis <br>
+<a
+href="https://kshitijtandon.github.io/Endozoicomonas-species-dynamics/"
+class="uri">https://kshitijtandon.github.io/Endozoicomonas-species-dynamics/</a></p>
 
 
 <!-- Adjust MathJax settings so that all math formulae are shown using
