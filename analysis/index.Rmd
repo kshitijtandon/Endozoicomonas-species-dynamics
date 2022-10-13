@@ -7,6 +7,5 @@ output:
 editor_options:
   chunk_output_type: console
 ---
-Refer to the site below for details of the project and analysis <br> 
- https://kshitijtandon.github.io/Endozoicomonas-species-dynamics/
 
++ [analysis](Microbiome_restructing_data_analysis.html)
